@@ -1,8 +1,7 @@
 {
   "name": "travel-fun",
-  "type": "module",
   "private": true,
-  "packageManager": "pnpm@10.32.1",
+  "type": "module",
   "scripts": {
     "build": "nuxt build",
     "dev:pwa": "VITE_PLUGIN_PWA=true nuxt dev",
@@ -13,13 +12,19 @@
     "start": "node .output/server/index.mjs",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
-    "typecheck": "nuxt typecheck"
+    "typecheck": "nuxt typecheck",
+    "db:generate": "drizzle-kit generate",
+    "db:migrate": "drizzle-kit migrate",
+    "db:studio": "drizzle-kit studio"
   },
   "dependencies": {
+    "@libsql/client": "catalog:",
     "@tanstack/vue-query": "catalog:",
     "@voomap/core": "catalog:",
     "@voomap/map": "catalog:",
+    "drizzle-orm": "catalog:",
     "nodemailer": "catalog:",
+    "nuxt-auth-utils": "catalog:",
     "swiper": "catalog:",
     "vue-sonner": "catalog:"
   },
@@ -46,6 +51,7 @@
     "@vueuse/nuxt": "catalog:build",
     "class-variance-authority": "catalog:",
     "clsx": "catalog:",
+    "drizzle-kit": "catalog:dev",
     "eslint": "catalog:dev",
     "eslint-plugin-format": "catalog:dev",
     "nuxt": "catalog:build",
@@ -68,5 +74,6 @@
     "semver": "catalog:build",
     "unplugin": "catalog:build",
     "vite": "catalog:build"
-  }
+  },
+  "packageManager": "pnpm@10.32.1"
 }
