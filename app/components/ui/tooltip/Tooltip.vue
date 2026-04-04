@@ -21,7 +21,7 @@ const props = defineProps<{ class?: string }>()
         <TooltipContent
           :class="
             cn(
-              'z-50 overflow-hidden rounded-m border border-cc-grey-e9 bg-white px-3 py-1.5 text-body shadow-md',
+              'z-50 overflow-hidden rounded-[5px] border border-cc-grey-e9 bg-white px-3 py-1.5 text-body shadow-md',
               props.class,
             )
           "

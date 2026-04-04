@@ -15,18 +15,18 @@ async function handleLogin() {
     return
   }
 
-  signInMutation
-    .mutateAsync(form)
-    .then((res: any) => {
+  signInMutation.mutate(form, {
+    onSuccess: (res) => {
       if (res.token) {
         userStore.setToken(res.token, res.expired)
         toast.success('登入成功')
         navigateTo('/')
       }
-    })
-    .catch(() => {
+    },
+    onError: () => {
       toast.error('登入失敗')
-    })
+    },
+  })
 }
 
 useSeoMeta({ title: '登入' })

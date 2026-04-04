@@ -2,6 +2,7 @@
 import { A11y, Navigation } from 'swiper/modules'
 import { Swiper, SwiperSlide } from 'swiper/vue'
 import { mockNews } from '~/constants'
+import 'swiper/css'
 
 const { isBeginning, isEnd, onSwiper, onSlideChange } = useSwiperInit()
 </script>
@@ -42,7 +43,6 @@ const { isBeginning, isEnd, onSwiper, onSlideChange } = useSwiperInit()
   </section>
 </template>
 
-<!-- Swiper 內部高度無法用 utility 覆寫，需用 :deep() -->
 <style scoped>
 @media screen and (max-width: 768px) {
   :deep(.swiper) {

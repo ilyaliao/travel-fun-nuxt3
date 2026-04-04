@@ -1,65 +1,95 @@
 <script setup lang="ts">
+import { useCartQuery } from '~/composables/queries/useCarts'
 import { websiteConfig } from '~/config/website'
 
 const route = useRoute()
-const { fixedHeaderList } = useAppConfig() as any
 
 const isFixed = computed(() => {
   const name = route.name as string
-  return fixedHeaderList?.includes(name) ?? true
+  return new Set(['index', 'city-name', 'country-name']).has(name)
 })
+
+const favoriteStore = useFavoriteStore()
+const { data: cartData } = useCartQuery()
+const cartCount = computed(() => cartData.value?.data?.carts?.length || 0)
 </script>
 
 <template>
   <header
-    class="w-full transition-colors top-0 z-40"
-    :class="
-      isFixed
-        ? 'fixed bg-cc-black/30 text-white'
-        : 'sticky bg-white text-cc-black border-b border-cc-grey-e9'
-    "
+    id="header"
+    class="text-white px-6 py-3 bg-black/30 flex h-16 top-0 justify-center z-20 backdrop-blur-[25px]"
+    :class="isFixed ? 'fixed left-0 right-0' : 'sticky'"
   >
-    <nav class="max-w-cc-big-width mx-auto px-4 flex h-16 items-center justify-between lg:px-8">
-      <!-- Left: Logo + Nav -->
-      <div class="flex gap-6 items-center">
-        <NuxtLink to="/" class="flex gap-2 items-center">
-          <NuxtImg :src="websiteConfig.logo" alt="旅遊趣" class="h-8" />
-        </NuxtLink>
+    <div class="mx-auto w-full md:px-4 xl:px-0 lg:max-w-[1296px]">
+      <div class="flex w-full justify-between">
+        <div class="flex items-center md:hidden">
+          <MobileMenu />
+        </div>
 
-        <!-- Desktop Nav -->
-        <div class="gap-4 hidden items-center lg:flex">
-          <RegionDropdown />
-          <NuxtLink to="/products" class="text-btn flex gap-1 items-center hover:opacity-80">
-            <div class="i-material-symbols-confirmation-number-outline h-5 w-5" />
-            景點套票
+        <div class="flex gap-8 items-center lg:w-[526px]">
+          <NuxtLink to="/">
+            <img class="h-10 object-cover" :src="websiteConfig.logoImage" alt="Travel Fun 首頁">
           </NuxtLink>
-          <NuxtLink to="/tours" class="text-btn flex gap-1 items-center hover:opacity-80">
-            <div class="i-material-symbols-hiking h-5 w-5" />
-            觀光行程
+          <ul class="flex-1 gap-1 h-full hidden items-center md:flex">
+            <li class="text-sm text-center flex-1">
+              <RegionDropdown />
+            </li>
+            <li class="text-sm text-center flex-1">
+              <NuxtLink to="/products" class="flex gap-2 items-center justify-center">
+                <div class="i-material-symbols-confirmation-number-outline h-6 w-6" />
+                景點套票
+              </NuxtLink>
+            </li>
+            <li class="text-sm text-center flex-1">
+              <NuxtLink to="/tours" class="flex gap-2 items-center justify-center">
+                <div class="i-material-symbols-flight-takeoff h-6 w-6" />
+                觀光行程
+              </NuxtLink>
+            </li>
+          </ul>
+        </div>
+
+        <div class="flex gap-4 items-center lg:gap-0 lg:w-[256px] lg:justify-between">
+          <div class="hidden place-content-center md:grid">
+            <NuxtLink
+              to="/wishlist"
+              aria-label="願望清單"
+              class="leading-none focus-visible:(outline-none rounded-full ring-2 ring-white/70)"
+            >
+              <div
+                v-if="favoriteStore.favoriteList.length !== 0"
+                class="i-material-symbols-favorite text-cc-accent h-6 w-6 cursor-pointer transition-transform duration-300 hover:scale-125"
+              />
+              <div
+                v-else
+                class="i-material-symbols-favorite-outline h-6 w-6 cursor-pointer transition-transform duration-300 hover:scale-125"
+              />
+            </NuxtLink>
+          </div>
+
+          <NuxtLink
+            to="/login"
+            class="text-base px-4 py-2 rounded-[50px] bg-cc-overlay gap-[6px] hidden whitespace-nowrap transition-colors duration-300 items-center justify-center hover:bg-cc-accent lg:flex"
+          >
+            <div class="i-material-symbols-person-outline shrink-0 h-6 w-6" />
+            登入 / 註冊
+          </NuxtLink>
+
+          <NuxtLink
+            to="/cart"
+            aria-label="購物車"
+            class="cursor-pointer relative focus-visible:(outline-none rounded ring-2 ring-white/70)"
+          >
+            <div class="i-material-symbols-shopping-cart-outline h-6 w-6" />
+            <span
+              v-if="cartCount > 0"
+              class="text-[10px] text-white font-bold rounded-full bg-cc-accent flex h-4 w-4 items-center justify-center absolute -right-2 -top-2"
+            >
+              {{ cartCount > 10 ? "10+" : cartCount }}
+            </span>
           </NuxtLink>
         </div>
       </div>
-
-      <!-- Right: Actions -->
-      <div class="flex gap-3 items-center">
-        <NuxtLink to="/wishlist" class="icon-btn" aria-label="收藏">
-          <div class="i-material-symbols-favorite-outline h-5 w-5" />
-        </NuxtLink>
-
-        <DarkToggle />
-
-        <NuxtLink to="/login" class="text-btn gap-1 hidden items-center hover:opacity-80 lg:flex">
-          <div class="i-material-symbols-person-outline h-5 w-5" />
-          登入／註冊
-        </NuxtLink>
-
-        <NuxtLink to="/cart" class="icon-btn relative" aria-label="購物車">
-          <div class="i-material-symbols-shopping-cart-outline h-5 w-5" />
-        </NuxtLink>
-
-        <!-- Mobile Menu Trigger -->
-        <MobileMenu class="lg:hidden" />
-      </div>
-    </nav>
+    </div>
   </header>
 </template>

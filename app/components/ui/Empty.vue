@@ -1,7 +1,12 @@
 <script setup lang="ts">
-const { description = '目前沒有資料' } = defineProps<{
-  description?: string
-}>()
+withDefaults(
+  defineProps<{
+    description?: string
+  }>(),
+  {
+    description: '目前沒有資料',
+  },
+)
 </script>
 
 <template>

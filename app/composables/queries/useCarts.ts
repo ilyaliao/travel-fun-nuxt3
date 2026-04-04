@@ -1,74 +1,61 @@
-import type { Cart } from '~/types'
-import { useMutation, useQuery, useQueryCache } from '@pinia/colada'
-
-interface CartRes {
-  data: {
-    carts: Cart[]
-    final_total: number
-    total: number
-  }
-}
-
-interface CouponRes {
-  data: {
-    final_total: number
-  }
-}
+import type { AddCartRes, CartRes, CouponRes, DeleteAllCartsRes, DeleteCartRes } from '~/types'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/vue-query'
+import { queryKeys } from './keys'
 
 export function useCartQuery() {
   const api = useApiClient()
 
   return useQuery({
-    key: ['cart'],
-    query: () => api.get<CartRes>('cart'),
+    queryKey: queryKeys.cart.all,
+    queryFn: () => api.get<CartRes>('cart'),
   })
 }
 
 export function useAddCart() {
   const api = useApiClient()
-  const queryCache = useQueryCache()
+  const queryClient = useQueryClient()
 
   return useMutation({
-    mutation: (data: { data: { product_id: string, qty: number, buy_date: number } }) =>
-      api.post('cart', data),
-    onSettled: () => {
-      queryCache.invalidateQueries({ key: ['cart'] })
+    mutationFn: (data: { data: { product_id: string, qty: number, buy_date: number } }) =>
+      api.post<AddCartRes>('cart', data),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: queryKeys.cart.all })
     },
   })
 }
 
 export function useDeleteCart() {
   const api = useApiClient()
-  const queryCache = useQueryCache()
+  const queryClient = useQueryClient()
 
   return useMutation({
-    mutation: (id: string) => api.delete(`cart/${id}`),
-    onSettled: () => {
-      queryCache.invalidateQueries({ key: ['cart'] })
+    mutationFn: (id: string) => api.delete<DeleteCartRes>(`cart/${id}`),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: queryKeys.cart.all })
     },
   })
 }
 
 export function useDeleteAllCarts() {
   const api = useApiClient()
-  const queryCache = useQueryCache()
+  const queryClient = useQueryClient()
 
   return useMutation({
-    mutation: () => api.delete('carts'),
-    onSettled: () => {
-      queryCache.invalidateQueries({ key: ['cart'] })
+    mutationFn: () => api.delete<DeleteAllCartsRes>('carts'),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: queryKeys.cart.all })
     },
   })
 }
 
 export function useApplyCoupon() {
   const api = useApiClient()
-  const queryCache = useQueryCache()
+  const queryClient = useQueryClient()
 
   return useMutation({
-    mutation: (code: string) => api.post<CouponRes>('coupon', { data: { code } }),
-    onSettled: () => {
-      queryCache.invalidateQueries({ key: ['cart'] })
+    mutationFn: (code: string) => api.post<CouponRes>('coupon', { data: { code } }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: queryKeys.cart.all })
     },
   })
 }

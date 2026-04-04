@@ -4,7 +4,7 @@ export const useUserStore = defineStore('user', () => {
 
   const getToken = computed(() => (loginStatus.value ? tokenCookie.value : null))
 
-  function setToken(token: string, expired: number) {
+  function setToken(token: string, _expired: number) {
     tokenCookie.value = token
     loginStatus.value = true
   }

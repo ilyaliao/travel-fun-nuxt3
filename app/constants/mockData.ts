@@ -1,4 +1,4 @@
-import type { City, New } from '~/types'
+import type { City, New } from '../types'
 
 export const mockNews: New[] = [
   {

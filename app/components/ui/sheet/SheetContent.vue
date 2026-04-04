@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { HTMLAttributes } from 'vue'
-import { DialogClose, DialogContent, DialogOverlay, DialogPortal } from 'reka-ui'
+import { DialogClose, DialogContent, DialogOverlay, DialogPortal } from 'radix-vue'
 import { cn } from '~/lib/utils'
 
 interface Props {
@@ -8,7 +8,9 @@ interface Props {
   class?: HTMLAttributes['class']
 }
 
-const { side = 'right', class: className } = defineProps<Props>()
+const props = withDefaults(defineProps<Props>(), {
+  side: 'right',
+})
 
 const sideClasses: Record<string, string> = {
   top: 'inset-x-0 top-0 border-b',
@@ -26,7 +28,7 @@ const sideClasses: Record<string, string> = {
         cn(
           'fixed z-50 gap-4 bg-white p-6 shadow-lg transition-transform',
           sideClasses[side],
-          className,
+          props.class,
         )
       "
     >

@@ -16,8 +16,7 @@
     "typecheck": "nuxt typecheck"
   },
   "dependencies": {
-    "@pinia/colada": "catalog:",
-    "@pinia/colada-nuxt": "catalog:",
+    "@tanstack/vue-query": "catalog:",
     "@voomap/core": "catalog:",
     "@voomap/map": "catalog:",
     "nodemailer": "catalog:",

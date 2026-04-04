@@ -1,4 +1,4 @@
 export default defineNuxtRouteMiddleware((to) => {
-  if (to.name === 'booking')
+  if (to.path === '/booking')
     return abortNavigation()
 })

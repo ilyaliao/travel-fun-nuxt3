@@ -1,37 +1,31 @@
 <script setup lang="ts">
 import { websiteConfig } from '~/config/website'
-import { copyRight } from '~/constants'
-
-const iconMap: Record<string, string> = {
-  github: 'i-carbon-logo-github',
-  mail: 'i-material-symbols-mail-outline',
-  public: 'i-material-symbols-home-outline',
-}
 </script>
 
 <template>
-  <footer class="text-white bg-cc-black">
-    <div class="max-w-cc-width mx-auto px-4 py-8 flex flex-col gap-4 items-center">
-      <!-- Logo + Social -->
-      <div class="flex gap-4 items-center">
-        <NuxtImg :src="websiteConfig.logo" alt="旅遊趣" class="h-8" />
-
-        <a
+  <footer class="px-4 py-8 bg-cc-black flex flex-col gap-6 items-center">
+    <div class="flex gap-8 items-center">
+      <img class="h-10 object-cover" :src="websiteConfig.logo" alt="Travel Fun 旅遊趣">
+      <ul class="flex gap-4 items-center">
+        <li
           v-for="item in websiteConfig.socia"
           :key="item.icon"
-          :href="item.href"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="icon-btn text-white/70 hover:text-white"
+          class="text-white rounded-full bg-cc-grey-66 grid h-11 w-11 cursor-pointer transition-colors duration-300 place-items-center hover:bg-cc-accent"
         >
-          <div class="h-6 w-6" :class="iconMap[item.icon] || 'i-carbon-link'" />
-        </a>
-      </div>
-
-      <!-- Copyright -->
-      <p class="text-xs text-white/50 text-center">
-        {{ copyRight }}
-      </p>
+          <a
+            :href="item.href"
+            target="_blank"
+            rel="noopener noreferrer"
+            :aria-label="item.icon"
+            class="focus-visible:(outline-none rounded-full ring-2 ring-white/70)"
+          >
+            <img :src="`/icons/${item.icon}.svg`" :alt="item.icon">
+          </a>
+        </li>
+      </ul>
     </div>
+    <p class="text-sm text-cc-grey-66 text-center">
+      此網站僅做為前端 Side Project 作品練習，不做商業用途，請勿用於商業用途，謝謝！
+    </p>
   </footer>
 </template>

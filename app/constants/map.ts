@@ -10,31 +10,35 @@ export const cityPos = new Map()
   .set('outlying', '離島')
 
 export const cityMap = new Map()
-  .set('taipei', '台北')
-  .set('keelung', '基隆')
-  .set('new-taipei', '新北')
-  .set('taoyuan', '桃園')
-  .set('hsinchu', '新竹')
-  .set('miaoli', '苗栗')
-  .set('taichung', '台中')
-  .set('changhua', '彰化')
-  .set('nantou', '南投')
-  .set('yunlin', '雲林')
-  .set('chiayi', '嘉義')
-  .set('tainan', '台南')
-  .set('kaohsiung', '高雄')
-  .set('pingtung', '屏東')
-  .set('yilan', '宜蘭')
-  .set('hualien', '花蓮')
-  .set('taitung', '台東')
-  .set('penghu', '澎湖')
+  .set('taipei', '臺北市')
+  .set('keelung', '基隆市')
+  .set('new-taipei', '新北市')
+  .set('taoyuan', '桃園市')
+  .set('hsinchu', '新竹市')
+  .set('hsinchu-county', '新竹縣')
+  .set('miaoli', '苗栗縣')
+  .set('taichung', '臺中市')
+  .set('changhua', '彰化縣')
+  .set('nantou', '南投縣')
+  .set('yunlin', '雲林縣')
+  .set('chiayi', '嘉義市')
+  .set('chiayi-county', '嘉義縣')
+  .set('tainan', '臺南市')
+  .set('kaohsiung', '高雄市')
+  .set('pingtung', '屏東縣')
+  .set('yilan', '宜蘭縣')
+  .set('hualien', '花蓮縣')
+  .set('taitung', '臺東縣')
+  .set('penghu', '澎湖縣')
+  .set('kinmen', '金門縣')
+  .set('lienchiang', '連江縣')
 
 export const cityData: Record<string, string[]> = {
-  central: ['hsinchu', 'miaoli', 'taichung', 'changhua'],
-  east: ['yilan', 'hualien', 'taitung'],
-  north: ['taipei', 'keelung', 'new-taipei', 'taoyuan'],
-  outlying: ['pingtung', 'penghu'],
-  south: ['nantou', 'yunlin', 'chiayi', 'tainan', 'kaohsiung'],
+  north: ['taipei', 'new-taipei', 'keelung', 'hsinchu', 'taoyuan', 'hsinchu-county', 'yilan'],
+  central: ['taichung', 'miaoli', 'changhua', 'nantou', 'yunlin'],
+  south: ['kaohsiung', 'tainan', 'chiayi', 'chiayi-county', 'pingtung', 'penghu'],
+  east: ['hualien', 'taitung', 'chiayi', 'chiayi-county', 'pingtung', 'penghu'],
+  outlying: ['kinmen', 'lienchiang'],
 }
 
 export const categoryMap = new Map().set('tickets', '門票').set('package', '套票')
@@ -56,4 +60,97 @@ export const mockMap = [
   { id: 6, lat: 25.1623, lng: 121.4922 },
   { id: 7, lat: 25.0013, lng: 121.5122 },
   { id: 8, lat: 25.1283, lng: 121.5471 },
+]
+
+export const mockProducts = [
+  {
+    evaluate: 4.5,
+    evaluateTotal: 23,
+    image: '/images/city/city_taipei.jpg',
+    location: '新北市',
+    originprice: 1000,
+    price: 700,
+    title: '北海岸自行車一日遊',
+  },
+  {
+    evaluate: 4,
+    evaluateTotal: 23,
+    image: '/images/city/city_kaohsiung.jpg',
+    location: '台中',
+    originprice: 250,
+    price: 200,
+    title: '臺灣國家美術館門票',
+  },
+  {
+    evaluate: 4.5,
+    evaluateTotal: 23,
+    image: '/images/city/city_taichung.jpg',
+    location: '台北',
+    originprice: 1000,
+    price: 800,
+    title: '台北野柳地質公園半日遊',
+  },
+  {
+    evaluate: 4,
+    evaluateTotal: 23,
+    image: '/images/city/city_penghu.jpg',
+    location: '台中',
+    originprice: 400,
+    price: 300,
+    title: '台中大坑風景區租單車',
+  },
+  {
+    evaluate: 5,
+    evaluateTotal: 23,
+    image: '/images/city/city_taipei.jpg',
+    location: '台南',
+    originprice: 800,
+    price: 500,
+    title: '台南安平漁港釣魚體驗',
+  },
+  {
+    evaluate: 4.5,
+    evaluateTotal: 23,
+    image: '/images/city/city_kaohsiung.jpg',
+    location: '屏東',
+    originprice: 700,
+    price: 500,
+    title: '墾丁水上活動｜香蕉船',
+  },
+  {
+    evaluate: 4.5,
+    evaluateTotal: 23,
+    image: '/images/city/city_tainan.jpg',
+    location: '新北市',
+    originprice: 1000,
+    price: 800,
+    title: '石門水庫單車一日遊',
+  },
+  {
+    evaluate: 4,
+    evaluateTotal: 23,
+    image: '/images/city/city_taichung.jpg',
+    location: '台中',
+    originprice: 300,
+    price: 250,
+    title: '鹿港老街踏青體驗',
+  },
+  {
+    evaluate: 4.5,
+    evaluateTotal: 23,
+    image: '/images/city/city_kaohsiung.jpg',
+    location: '花蓮',
+    originprice: 1899,
+    price: 1599,
+    title: '太魯閣國家公園一日遊',
+  },
+  {
+    evaluate: 4,
+    evaluateTotal: 23,
+    image: '/images/city/city_taichung.jpg',
+    location: '彰化',
+    originprice: 999,
+    price: 799,
+    title: '彰化鹿港｜古蹟文化探索一日遊',
+  },
 ]

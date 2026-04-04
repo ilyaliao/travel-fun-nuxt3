@@ -1,38 +1,77 @@
 <script setup lang="ts">
-import { sortMap } from '~/constants'
 import { Sort } from '~/types'
-import { mapToArray } from '~/utils/mapToArray'
 
 const route = useRoute()
+const router = useRouter()
 const productStore = useProductStore()
 const { data, isLoading } = useAllProducts()
 
-const currentSort = ref<Sort>(Sort.Popular)
-
-const sortOptions = mapToArray(sortMap)
-
-const sortedProducts = computed(() => {
-  if (!data.value?.products)
-    return []
-  return productStore.getSortData(data.value.products, currentSort.value)
-})
-
+// URL as single source of truth
+const selectedCity = computed(() => (route.query.city as string) || '')
+const selectedCategory = computed(() => (route.query.category as string) || '')
+const currentSort = computed(() => (route.query.sort as Sort) || Sort.Popular)
 const searchQuery = computed(() => (route.query.q as string) || '')
 
-const filteredProducts = computed(() => {
-  if (!searchQuery.value)
-    return sortedProducts.value
-  const q = searchQuery.value.toLowerCase()
-  return sortedProducts.value.filter(
-    p => p.title.toLowerCase().includes(q) || p.city.toLowerCase().includes(q),
-  )
+// Local search input with debounce
+const searchInput = ref(searchQuery.value)
+watchDebounced(
+  searchInput,
+  (val) => {
+    updateQuery({ q: val || undefined })
+  },
+  { debounce: 300 },
+)
+
+// Sync search input when URL changes externally
+watch(searchQuery, (val) => {
+  if (val !== searchInput.value)
+    searchInput.value = val
 })
+
+function updateQuery(patch: Record<string, string | undefined>) {
+  const query = { ...route.query }
+  for (const [key, val] of Object.entries(patch)) {
+    if (val)
+      query[key] = val
+    else delete query[key]
+  }
+  router.replace({ query })
+}
+
+// Data pipeline
+const filteredProducts = computed(() => {
+  if (!data.value?.products)
+    return []
+  let result = data.value.products
+
+  // City & category are stored as slugs/keys in Product data
+  result = productStore.getFilterData(
+    result,
+    selectedCity.value || null,
+    selectedCategory.value,
+    0,
+  )
+
+  // Text search
+  if (searchQuery.value) {
+    const q = searchQuery.value.toLowerCase()
+    result = result.filter(
+      p => p.title.toLowerCase().includes(q) || p.city.toLowerCase().includes(q),
+    )
+  }
+
+  // Sort
+  return productStore.getSortData(result, currentSort.value)
+})
+
+// Mobile filter sheet
+const filterSheetOpen = ref(false)
 
 useSeoMeta({ title: '景點套票' })
 </script>
 
 <template>
-  <div class="max-w-cc-width mx-auto px-4 py-8">
+  <div class="mx-auto px-4 py-8 max-w-[1296px]">
     <UiBreadcrumbBreadcrumb class="mb-6">
       <UiBreadcrumbBreadcrumbItem>
         <NuxtLink to="/" class="hover:text-cc-primary">
@@ -45,31 +84,63 @@ useSeoMeta({ title: '景點套票' })
       </UiBreadcrumbBreadcrumbItem>
     </UiBreadcrumbBreadcrumb>
 
-    <div class="mb-6 flex items-center justify-between">
-      <h1 class="text-h3">
-        景點套票
-      </h1>
+    <h1 class="text-h3 mb-6">
+      景點套票
+    </h1>
 
-      <!-- Sort -->
-      <UiSelectSelect
-        :model-value="currentSort"
-        :options="sortOptions"
-        class="w-48"
-        @update:model-value="currentSort = $event as Sort"
-      />
+    <div class="flex gap-8">
+      <!-- Desktop sidebar -->
+      <aside class="shrink-0 w-56 hidden lg:block">
+        <ProductProductFilters
+          :selected-city="selectedCity"
+          :selected-category="selectedCategory"
+          @update:selected-city="(v) => updateQuery({ city: v || undefined })"
+          @update:selected-category="(v) => updateQuery({ category: v || undefined })"
+        />
+      </aside>
+
+      <!-- Mobile filter sheet -->
+      <UiSheetSheet v-model:open="filterSheetOpen">
+        <UiSheetSheetTrigger class="lg:hidden">
+          <UiButtonButton variant="outline" size="sm">
+            <div class="i-material-symbols-filter-list mr-1 h-4 w-4" />
+            篩選
+          </UiButtonButton>
+        </UiSheetSheetTrigger>
+        <UiSheetSheetContent side="left">
+          <div class="mt-8">
+            <ProductProductFilters
+              :selected-city="selectedCity"
+              :selected-category="selectedCategory"
+              @update:selected-city="
+                (v) => {
+                  updateQuery({ city: v || undefined });
+                  filterSheetOpen = false;
+                }
+              "
+              @update:selected-category="
+                (v) => {
+                  updateQuery({ category: v || undefined });
+                  filterSheetOpen = false;
+                }
+              "
+            />
+          </div>
+        </UiSheetSheetContent>
+      </UiSheetSheet>
+
+      <!-- Main content -->
+      <div class="flex-1 min-w-0">
+        <!-- Search -->
+        <UiInputInput v-model="searchInput" placeholder="搜尋景點名稱或城市..." class="mb-4" />
+
+        <ProductProductGrid
+          :products="filteredProducts"
+          :is-loading="isLoading"
+          :sort="currentSort"
+          @update:sort="(v) => updateQuery({ sort: v })"
+        />
+      </div>
     </div>
-
-    <div v-if="isLoading" class="py-20 flex items-center justify-center">
-      <div class="i-material-symbols-progress-activity text-cc-primary h-8 w-8 animate-spin" />
-    </div>
-
-    <div
-      v-else-if="filteredProducts.length"
-      class="gap-4 grid grid-cols-2 lg:grid-cols-4 sm:grid-cols-3 xl:grid-cols-5"
-    >
-      <HomeProductCard v-for="product in filteredProducts" :key="product.id" :product="product" />
-    </div>
-
-    <UiEmpty v-else description="找不到符合的商品" />
   </div>
 </template>

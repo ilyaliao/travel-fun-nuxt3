@@ -2,6 +2,7 @@
 import type { Product } from '~/types'
 import { A11y, Navigation } from 'swiper/modules'
 import { Swiper, SwiperSlide } from 'swiper/vue'
+import 'swiper/css'
 
 defineProps<{
   title: string
@@ -49,7 +50,7 @@ const { isBeginning, isEnd, onSwiper, onSlideChange } = useSwiperInit()
         @slide-change="onSlideChange"
       >
         <SwiperSlide v-for="(product, index) in products" :key="product.id || index">
-          <HomeProductCard :product :ranking="index + 1" />
+          <HomeProductCard :product="product" :ranking="index + 1" />
         </SwiperSlide>
       </Swiper>
       <SwiperNav :classkey="swiperKey" :is-beginning="isBeginning" :is-end="isEnd" />
@@ -66,13 +67,8 @@ const { isBeginning, isEnd, onSwiper, onSlideChange } = useSwiperInit()
   </section>
 </template>
 
-<!-- Swiper 內部元素無法用 utility 覆寫，需用 :deep() -->
 <style scoped>
 :deep(.swiper-btn) {
   top: calc(50% - (120px + 8px) / 2);
-}
-
-:deep(.swiper) {
-  padding-bottom: 8px;
 }
 </style>

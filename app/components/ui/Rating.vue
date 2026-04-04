@@ -1,20 +1,21 @@
 <script setup lang="ts">
-const {
-  value,
-  max = 5,
-  count,
-} = defineProps<{
-  value: number
-  max?: number
-  count?: number
-}>()
+const props = withDefaults(
+  defineProps<{
+    value: number
+    max?: number
+    count?: number
+  }>(),
+  {
+    max: 5,
+  },
+)
 
-const fullStars = computed(() => Math.floor(value))
-const hasHalf = computed(() => value - fullStars.value >= 0.25)
+const fullStars = computed(() => Math.floor(props.value))
+const hasHalf = computed(() => props.value - fullStars.value >= 0.25)
 </script>
 
 <template>
-  <div class="inline-flex gap-0.5 items-center tabular-nums">
+  <div class="inline-flex gap-0.5 items-center">
     <template v-for="i in max" :key="i">
       <div
         class="h-4 w-4"

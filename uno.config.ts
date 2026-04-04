@@ -43,24 +43,19 @@ export default defineConfig({
   theme: {
     colors: {
       cc: {
-        'primary': '#0F4BB4',
-        'accent': '#EE5220',
-        'brown': '#B29575',
-        'success': '#0D7C3E',
-        'success-light': '#ECFDF3',
-        'warning': '#B25E09',
-        'warning-light': '#FEF6EC',
-        'white': '#FFFFFF',
-        'black': '#181818',
-        'grey': {
+        primary: '#0F4BB4',
+        accent: '#EE5220',
+        brown: '#B29575',
+        white: '#FFFFFF',
+        black: '#181818',
+        grey: {
           '66': '#666666',
           '9f': '#9F9F9F',
           'd4': '#D4D4D4',
           'e9': '#E9E9E9',
-          'f7': '#F8F7F5',
+          'f7': '#F7F7F7',
         },
-        'overlay': 'rgba(24,24,24,0.8)',
-        'line-pay': '#00B900',
+        overlay: 'rgba(24,24,24,0.8)',
       },
     },
     maxWidth: {

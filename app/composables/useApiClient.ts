@@ -1,42 +1,35 @@
+import type { NitroFetchOptions, NitroFetchRequest } from 'nitropack'
+
+type FetchOptions = NitroFetchOptions<NitroFetchRequest>
+
 export function useApiClient() {
-  const config = useRuntimeConfig()
-  const { apiBase, apiSecret } = config.public
+  const { apiBase, apiSecret } = useRuntimeConfig().public
 
   const baseURL = `${apiBase}/api/${apiSecret}`
   const authBaseURL = apiBase as string
 
-  function getHeaders(): Record<string, string> {
-    const headers: Record<string, string> = {}
+  function apiFetch<T>(url: string, options: FetchOptions = {}) {
     const token = useCookie('token').value
-    if (token)
-      headers.Authorization = token
-    return headers
-  }
-
-  async function apiFetch<T>(
-    url: string,
-    options: RequestInit & { baseURL?: string } = {},
-  ): Promise<T> {
-    const { baseURL: overrideBase, ...fetchOptions } = options
     return $fetch<T>(url, {
-      baseURL: overrideBase || baseURL,
+      baseURL,
+      ...options,
       headers: {
-        ...getHeaders(),
-        ...(fetchOptions.headers as Record<string, string>),
+        ...(token ? { Authorization: token } : {}),
+        ...options.headers,
       },
-      ...fetchOptions,
     })
   }
 
   return {
-    get: <T>(url: string, options?: any) => apiFetch<T>(url, { method: 'GET', ...options }),
-    post: <T>(url: string, body?: any, options?: any) =>
-      apiFetch<T>(url, { method: 'POST', body, ...options }),
-    put: <T>(url: string, body?: any, options?: any) =>
-      apiFetch<T>(url, { method: 'PUT', body, ...options }),
-    delete: <T>(url: string, body?: any, options?: any) =>
-      apiFetch<T>(url, { method: 'DELETE', body, ...options }),
-    authFetch: <T>(url: string, options?: any) =>
-      apiFetch<T>(url, { baseURL: authBaseURL, ...options }),
+    get: <T>(url: string, options?: FetchOptions) =>
+      apiFetch<T>(url, { ...options, method: 'GET' }),
+    post: <T>(url: string, body?: FetchOptions['body'], options?: FetchOptions) =>
+      apiFetch<T>(url, { ...options, method: 'POST', body }),
+    put: <T>(url: string, body?: FetchOptions['body'], options?: FetchOptions) =>
+      apiFetch<T>(url, { ...options, method: 'PUT', body }),
+    delete: <T>(url: string, body?: FetchOptions['body'], options?: FetchOptions) =>
+      apiFetch<T>(url, { ...options, method: 'DELETE', body }),
+    authFetch: <T>(url: string, options?: FetchOptions) =>
+      apiFetch<T>(url, { ...options, baseURL: authBaseURL }),
   }
 }

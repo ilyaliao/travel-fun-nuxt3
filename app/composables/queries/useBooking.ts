@@ -1,23 +1,14 @@
-import type { Order } from '~/types'
-import { useMutation, useQuery } from '@pinia/colada'
-
-interface AddOrderRes {
-  create_at: number
-  orderId: string
-  total: number
-}
-
-interface OrderDetailRes {
-  order: Order
-}
+import type { AddOrderRes, Order, OrderDetailRes, PayOrderRes } from '~/types'
+import { useMutation, useQuery } from '@tanstack/vue-query'
+import { queryKeys } from './keys'
 
 export function useOrderQuery(id: MaybeRef<string>) {
   const api = useApiClient()
 
   return useQuery({
-    key: () => ['order', toValue(id)],
-    query: () => api.get<OrderDetailRes>(`order/${toValue(id)}`),
-    enabled: () => !!toValue(id),
+    queryKey: computed(() => queryKeys.order.detail(toValue(id))),
+    queryFn: () => api.get<OrderDetailRes>(`order/${toValue(id)}`),
+    enabled: computed(() => !!toValue(id)),
   })
 }
 
@@ -25,7 +16,7 @@ export function useAddOrder() {
   const api = useApiClient()
 
   return useMutation({
-    mutation: (data: { data: Order }) => api.post<AddOrderRes>('order', data),
+    mutationFn: (data: { data: Order }) => api.post<AddOrderRes>('order', data),
   })
 }
 
@@ -33,6 +24,6 @@ export function usePayOrder() {
   const api = useApiClient()
 
   return useMutation({
-    mutation: (id: string) => api.post(`pay/${id}`),
+    mutationFn: (id: string) => api.post<PayOrderRes>(`pay/${id}`),
   })
 }

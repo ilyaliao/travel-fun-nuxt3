@@ -12,9 +12,12 @@ export default defineNuxtConfig({
     '@nuxt/image',
     '@nuxtjs/google-fonts',
     '@nuxtjs/sitemap',
-    '@pinia/colada-nuxt',
     // '@vue-email/nuxt', // TODO: incompatible with Nuxt 4, re-enable when updated
   ],
+
+  imports: {
+    dirs: ['composables/queries'],
+  },
 
   devtools: {
     enabled: true,
@@ -42,6 +45,8 @@ export default defineNuxtConfig({
 
   colorMode: {
     classSuffix: '',
+    preference: 'light',
+    fallback: 'light',
   },
 
   runtimeConfig: {
@@ -54,6 +59,8 @@ export default defineNuxtConfig({
       googleMapApiKey: '',
     },
   },
+
+  // vueEmail config removed — module is disabled (incompatible with Nuxt 4)
 
   future: {
     compatibilityVersion: 4,
@@ -78,6 +85,7 @@ export default defineNuxtConfig({
     prerender: {
       crawlLinks: false,
       routes: ['/'],
+      failOnError: false,
     },
   },
 
@@ -97,10 +105,9 @@ export default defineNuxtConfig({
     },
   },
 
-  pwa,
-
-  vueEmail: {
-    autoImport: true,
-    baseUrl: process.env.NUXT_GMAIL_BASE_URL,
+  image: {
+    provider: 'none',
   },
+
+  pwa,
 })

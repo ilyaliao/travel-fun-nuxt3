@@ -43,7 +43,11 @@ const regions = Array.from(cityPos.entries()).map(([key, label]) => ({
 
         <nav class="mt-8 flex flex-col gap-4">
           <div>
-            <button v-for="region in regions" :key="region.key" class="text-left w-full">
+            <button
+              v-for="region in regions"
+              :key="region.key"
+              class="text-left w-full cursor-pointer"
+            >
               <div
                 class="text-body text-cc-black font-medium py-2 flex items-center justify-between"
                 @click="toggleRegion(region.key)"

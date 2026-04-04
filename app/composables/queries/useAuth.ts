@@ -1,16 +1,11 @@
-import { useMutation } from '@pinia/colada'
-
-interface SigninRes {
-  expired: number
-  token: string
-  uid: string
-}
+import type { LogoutRes, SigninRes } from '~/types'
+import { useMutation } from '@tanstack/vue-query'
 
 export function useSignIn() {
   const api = useApiClient()
 
   return useMutation({
-    mutation: (body: { username: string, password: string }) =>
+    mutationFn: (body: { username: string, password: string }) =>
       api.authFetch<SigninRes>('admin/signin', { method: 'POST', body }),
   })
 }
@@ -19,6 +14,6 @@ export function useLogout() {
   const api = useApiClient()
 
   return useMutation({
-    mutation: () => api.authFetch('logout', { method: 'POST' }),
+    mutationFn: () => api.authFetch<LogoutRes>('logout', { method: 'POST' }),
   })
 }

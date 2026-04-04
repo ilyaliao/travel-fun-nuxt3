@@ -31,7 +31,7 @@ async function submitOrder() {
   addOrderMutation.mutate(
     { data: orderData },
     {
-      onSuccess: (res: any) => {
+      onSuccess: (res) => {
         if (res.orderId) {
           navigateTo(`/booking/pay/${res.orderId}`)
         }
@@ -93,7 +93,7 @@ useSeoMeta({ title: '填寫訂單' })
           v-model="form.message"
           rows="3"
           placeholder="有什麼想告訴我們的嗎？"
-          class="rounded-m text-body px-3 py-2 outline-none border border-cc-grey-d4 w-full focus:(ring-2 ring-cc-primary ring-offset-2)"
+          class="text-body px-3 py-2 outline-none border border-cc-grey-d4 rounded-[5px] w-full focus:(ring-2 ring-cc-primary ring-offset-2)"
         />
       </div>
 

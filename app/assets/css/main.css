@@ -10,15 +10,11 @@ body,
 html {
   font-family: 'Noto Sans TC', sans-serif;
   font-size: 16px;
-  letter-spacing: 0.02em;
+  letter-spacing: 0.05em;
+  color: #181818;
+  background-color: #fff;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-}
-
-html.dark {
-  color-scheme: dark;
-  background-color: #181818;
-  color: #f7f7f7;
 }
 
 button {

@@ -21,7 +21,7 @@ const displayProducts = computed(() => {
 function onSearch() {
   showDropdown.value = false
   if (displayProducts.value.length > 0) {
-    navigateTo(`/products/${displayProducts.value[0]!.id}`)
+    navigateTo(`/product/${displayProducts.value[0]!.id}`)
   }
   else if (searchQuery.value.trim()) {
     navigateTo({ path: '/products', query: { q: searchQuery.value } })
@@ -60,12 +60,13 @@ onClickOutside(searchContainer, () => {
         讓我們帶著你一同欣賞台灣的美
       </h1>
     </div>
+    <!-- Search bar -->
     <div
       ref="searchContainer"
       class="w-full relative md:(max-w-[640px] translate-y-1/2 bottom-0 left-1/2 absolute -translate-x-1/2)"
     >
       <div
-        class="px-3 py-3 rounded-[5px] bg-white flex gap-2 shadow-[0_0_20px_0_black/20] items-center md:px-5"
+        class="px-3 py-3 rounded-[5px] bg-white flex gap-2 shadow-[0px_0px_20px_0px_#00000033] items-center md:px-5"
       >
         <label for="hero-search" class="sr-only">搜尋目的地</label>
         <input
@@ -87,6 +88,7 @@ onClickOutside(searchContainer, () => {
           搜尋
         </button>
       </div>
+      <!-- Autocomplete dropdown -->
       <Transition
         enter-active-class="transition duration-200 ease-out"
         enter-from-class="translate-y-[-8px] scale-y-95 opacity-0"
@@ -99,11 +101,12 @@ onClickOutside(searchContainer, () => {
           v-if="showDropdown"
           class="mt-1 rounded-[5px] bg-white shadow-lg origin-top left-0 right-0 absolute z-50"
         >
+          <!-- Results list -->
           <div v-if="displayProducts.length > 0" class="max-h-[300px] overflow-y-auto">
             <NuxtLink
               v-for="{ id, title, city, imageUrl } in displayProducts"
               :key="id"
-              :to="`/products/${id}`"
+              :to="`/product/${id}`"
               class="px-4 py-3 flex gap-3 cursor-pointer transition-colors items-center hover:bg-cc-grey-f7"
               @click="showDropdown = false"
             >
@@ -123,6 +126,7 @@ onClickOutside(searchContainer, () => {
               </div>
             </NuxtLink>
           </div>
+          <!-- Empty state -->
           <div v-else-if="hasInput" class="py-8 flex flex-col gap-3 items-center">
             <div class="i-material-symbols-search-off text-cc-grey-d4 h-10 w-10" />
             <p class="text-sm text-cc-grey-9f">
