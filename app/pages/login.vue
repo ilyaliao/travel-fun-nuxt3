@@ -1,27 +1,25 @@
 <script setup lang="ts">
 import { toast } from 'vue-sonner'
 
-const userStore = useUserStore()
+const { fetch: refreshSession } = useUserSession()
 const signInMutation = useSignIn()
 
 const form = reactive({
-  username: '',
+  email: '',
   password: '',
 })
 
 async function handleLogin() {
-  if (!form.username || !form.password) {
+  if (!form.email || !form.password) {
     toast.error('請輸入帳號和密碼')
     return
   }
 
   signInMutation.mutate(form, {
-    onSuccess: (res) => {
-      if (res.token) {
-        userStore.setToken(res.token, res.expired)
-        toast.success('登入成功')
-        navigateTo('/')
-      }
+    onSuccess: async () => {
+      await refreshSession()
+      toast.success('登入成功')
+      navigateTo('/')
     },
     onError: () => {
       toast.error('登入失敗')
@@ -41,8 +39,8 @@ useSeoMeta({ title: '登入' })
 
       <form class="flex flex-col gap-4" @submit.prevent="handleLogin">
         <div>
-          <label class="text-body text-cc-black font-medium mb-1 block">帳號</label>
-          <UiInputInput v-model="form.username" placeholder="請輸入帳號" />
+          <label class="text-body text-cc-black font-medium mb-1 block">Email</label>
+          <UiInputInput v-model="form.email" type="email" placeholder="請輸入 Email" />
         </div>
         <div>
           <label class="text-body text-cc-black font-medium mb-1 block">密碼</label>

@@ -9,8 +9,7 @@ const props = defineProps<{
   ranking?: number
 }>()
 
-const favoriteStore = useFavoriteStore()
-const { addFavorite, removeFavorite, checkFavorite } = favoriteStore
+const { checkFavorite, toggleFavorite } = useFavoriteHelpers()
 
 const product = toRef(props, 'product')
 const cityName = computed(() => cityMap.get(product.value.city) || product.value.city)
@@ -33,7 +32,7 @@ const cityName = computed(() => cityMap.get(product.value.city) || product.value
         type="button"
         aria-label="取消收藏"
         class="p-2 cursor-pointer -m-2 focus-visible:(outline-none rounded-full ring-2 ring-white/70)"
-        @click.prevent="removeFavorite(product.id, product.title)"
+        @click.prevent="toggleFavorite(product.id, product.title)"
       >
         <div
           class="i-material-symbols-favorite text-cc-accent h-6 w-6 transition-transform duration-300 hover:scale-125"
@@ -44,7 +43,7 @@ const cityName = computed(() => cityMap.get(product.value.city) || product.value
         type="button"
         aria-label="加入收藏"
         class="p-2 cursor-pointer -m-2 focus-visible:(outline-none rounded-full ring-2 ring-white/70)"
-        @click.prevent="addFavorite(product.id, product.title)"
+        @click.prevent="toggleFavorite(product.id, product.title)"
       >
         <div
           class="i-material-symbols-favorite-outline h-6 w-6 transition-transform duration-300 hover:scale-125"

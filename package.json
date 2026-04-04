@@ -1,7 +1,8 @@
 {
   "name": "travel-fun",
-  "private": true,
   "type": "module",
+  "private": true,
+  "packageManager": "pnpm@10.32.1",
   "scripts": {
     "build": "nuxt build",
     "dev:pwa": "VITE_PLUGIN_PWA=true nuxt dev",
@@ -74,6 +75,5 @@
     "semver": "catalog:build",
     "unplugin": "catalog:build",
     "vite": "catalog:build"
-  },
-  "packageManager": "pnpm@10.32.1"
+  }
 }

@@ -10,4 +10,7 @@ export const queryKeys = {
   order: {
     detail: (id: string) => ['order', id] as const,
   },
+  favorites: {
+    all: ['favorites'] as const,
+  },
 }

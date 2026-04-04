@@ -1,6 +1,5 @@
 import type { Cart, Order, Pagination, Product } from './data'
 
-// 六角學院 API 共用回應格式
 export interface BaseApiResponse {
   success: boolean
   message: string
@@ -61,10 +60,6 @@ export interface PayOrderRes extends BaseApiResponse {}
 
 // === Auth ===
 
-export interface SigninRes extends BaseApiResponse {
-  expired: number
-  token: string
-  uid: string
-}
+export interface AuthRes extends BaseApiResponse {}
 
 export interface LogoutRes extends BaseApiResponse {}

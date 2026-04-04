@@ -3,27 +3,22 @@ import { useMutation, useQuery } from '@tanstack/vue-query'
 import { queryKeys } from './keys'
 
 export function useOrderQuery(id: MaybeRef<string>) {
-  const api = useApiClient()
-
   return useQuery({
     queryKey: computed(() => queryKeys.order.detail(toValue(id))),
-    queryFn: () => api.get<OrderDetailRes>(`order/${toValue(id)}`),
+    queryFn: () => $fetch<OrderDetailRes>(`/api/orders/${toValue(id)}`),
     enabled: computed(() => !!toValue(id)),
   })
 }
 
 export function useAddOrder() {
-  const api = useApiClient()
-
   return useMutation({
-    mutationFn: (data: { data: Order }) => api.post<AddOrderRes>('order', data),
+    mutationFn: (data: { data: Order }) =>
+      $fetch<AddOrderRes>('/api/orders', { method: 'POST', body: data }),
   })
 }
 
 export function usePayOrder() {
-  const api = useApiClient()
-
   return useMutation({
-    mutationFn: (id: string) => api.post<PayOrderRes>(`pay/${id}`),
+    mutationFn: (id: string) => $fetch<PayOrderRes>(`/api/orders/${id}/pay`, { method: 'POST' }),
   })
 }

@@ -1,12 +1,9 @@
 <script setup lang="ts">
-const favoriteStore = useFavoriteStore()
-const { data } = useAllProducts()
+const { data } = useFavoritesQuery()
 
-const wishlistProducts = computed(() => {
-  if (!data.value?.products)
-    return []
-  return data.value.products.filter(p => favoriteStore.checkFavorite(p.id))
-})
+const wishlistProducts = computed(
+  () => data.value?.data?.map(f => f.product).filter(Boolean) || [],
+)
 
 useSeoMeta({ title: '收藏清單' })
 </script>

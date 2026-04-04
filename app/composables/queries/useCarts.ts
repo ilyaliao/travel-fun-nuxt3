@@ -3,21 +3,18 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/vue-query'
 import { queryKeys } from './keys'
 
 export function useCartQuery() {
-  const api = useApiClient()
-
   return useQuery({
     queryKey: queryKeys.cart.all,
-    queryFn: () => api.get<CartRes>('cart'),
+    queryFn: () => $fetch<CartRes>('/api/cart'),
   })
 }
 
 export function useAddCart() {
-  const api = useApiClient()
   const queryClient = useQueryClient()
 
   return useMutation({
     mutationFn: (data: { data: { product_id: string, qty: number, buy_date: number } }) =>
-      api.post<AddCartRes>('cart', data),
+      $fetch<AddCartRes>('/api/cart', { method: 'POST', body: data }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: queryKeys.cart.all })
     },
@@ -25,11 +22,10 @@ export function useAddCart() {
 }
 
 export function useDeleteCart() {
-  const api = useApiClient()
   const queryClient = useQueryClient()
 
   return useMutation({
-    mutationFn: (id: string) => api.delete<DeleteCartRes>(`cart/${id}`),
+    mutationFn: (id: string) => $fetch<DeleteCartRes>(`/api/cart/${id}`, { method: 'DELETE' }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: queryKeys.cart.all })
     },
@@ -37,11 +33,10 @@ export function useDeleteCart() {
 }
 
 export function useDeleteAllCarts() {
-  const api = useApiClient()
   const queryClient = useQueryClient()
 
   return useMutation({
-    mutationFn: () => api.delete<DeleteAllCartsRes>('carts'),
+    mutationFn: () => $fetch<DeleteAllCartsRes>('/api/cart', { method: 'DELETE' }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: queryKeys.cart.all })
     },
@@ -49,11 +44,11 @@ export function useDeleteAllCarts() {
 }
 
 export function useApplyCoupon() {
-  const api = useApiClient()
   const queryClient = useQueryClient()
 
   return useMutation({
-    mutationFn: (code: string) => api.post<CouponRes>('coupon', { data: { code } }),
+    mutationFn: (code: string) =>
+      $fetch<CouponRes>('/api/cart/coupon', { method: 'POST', body: { data: { code } } }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: queryKeys.cart.all })
     },

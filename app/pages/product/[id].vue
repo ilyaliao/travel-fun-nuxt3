@@ -40,16 +40,12 @@ function handleAddToCart() {
 }
 
 // Favorites
-const favoriteStore = useFavoriteStore()
-const isFavorite = computed(() =>
-  product.value ? favoriteStore.checkFavorite(product.value.id) : false,
-)
+const { checkFavorite, toggleFavorite: toggleFav } = useFavoriteHelpers()
+const isFavorite = computed(() => (product.value ? checkFavorite(product.value.id) : false))
 function toggleFavorite() {
   if (!product.value)
     return
-  if (isFavorite.value)
-    favoriteStore.removeFavorite(product.value.id, product.value.title)
-  else favoriteStore.addFavorite(product.value.id, product.value.title)
+  toggleFav(product.value.id, product.value.title)
 }
 
 // Related products (same city, exclude self)

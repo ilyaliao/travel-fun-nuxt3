@@ -9,7 +9,8 @@ const isFixed = computed(() => {
   return new Set(['index', 'city-name', 'country-name']).has(name)
 })
 
-const favoriteStore = useFavoriteStore()
+const { data: favData } = useFavoritesQuery()
+const hasFavorites = computed(() => (favData.value?.data?.length || 0) > 0)
 const { data: cartData } = useCartQuery()
 const cartCount = computed(() => cartData.value?.data?.carts?.length || 0)
 </script>
@@ -57,7 +58,7 @@ const cartCount = computed(() => cartData.value?.data?.carts?.length || 0)
               class="leading-none focus-visible:(outline-none rounded-full ring-2 ring-white/70)"
             >
               <div
-                v-if="favoriteStore.favoriteList.length !== 0"
+                v-if="hasFavorites"
                 class="i-material-symbols-favorite text-cc-accent h-6 w-6 cursor-pointer transition-transform duration-300 hover:scale-125"
               />
               <div
