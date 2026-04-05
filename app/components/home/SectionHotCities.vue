@@ -15,7 +15,7 @@ const _mainCity = computed(() => (hotCitys: City[]) => (hotCitys.length > 0 ? ho
       <div v-if="hotCitys" class="gap-3 grid grid-rows-2 md:(gap-6 grid-flow-col)">
         <NuxtLink
           v-if="hotCitys[0]"
-          :to="`/city/${hotCitys[0].enName.toLowerCase()}`"
+          :to="`/products/city/${hotCitys[0].enName.toLowerCase()}`"
           class="rounded-[5px] col-span-2 row-span-2 relative overflow-hidden"
         >
           <img
@@ -34,7 +34,7 @@ const _mainCity = computed(() => (hotCitys: City[]) => (hotCitys.length > 0 ? ho
         <NuxtLink
           v-for="city in hotCitys.slice(1)"
           :key="city.name"
-          :to="`/city/${city.enName.toLowerCase()}`"
+          :to="`/products/city/${city.enName.toLowerCase()}`"
           class="rounded-[5px] relative overflow-hidden"
         >
           <img

@@ -1,10 +1,10 @@
 // 分頁
 export interface Pagination {
-  category: string
+  total: number
   current_page: number
-  has_next: boolean
-  has_pre: boolean
   total_pages: number
+  has_pre: boolean
+  has_next: boolean
 }
 
 // 產品
@@ -103,8 +103,7 @@ export interface City {
 }
 
 export interface Plan {
-  content: string
-  origin_price: number
+  description: string
   price: number
   title: string
 }

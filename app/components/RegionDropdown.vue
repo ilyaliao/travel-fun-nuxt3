@@ -32,7 +32,7 @@ const open = ref(false)
                 <NuxtLink
                   v-for="cityName in citys"
                   :key="cityName"
-                  :to="`/city/${cityName}`"
+                  :to="`/products/city/${cityName}`"
                   class="text-sm text-cc-black cursor-pointer focus-visible:(text-cc-primary outline-none) hover:text-cc-primary"
                   @click="open = false"
                 >

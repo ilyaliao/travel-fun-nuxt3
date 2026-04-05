@@ -21,7 +21,7 @@ const displayProducts = computed(() => {
 function onSearch() {
   showDropdown.value = false
   if (displayProducts.value.length > 0) {
-    navigateTo(`/product/${displayProducts.value[0]!.id}`)
+    navigateTo(`/products/${displayProducts.value[0]!.id}`)
   }
   else if (searchQuery.value.trim()) {
     navigateTo({ path: '/products', query: { q: searchQuery.value } })
@@ -106,7 +106,7 @@ onClickOutside(searchContainer, () => {
             <NuxtLink
               v-for="{ id, title, city, imageUrl } in displayProducts"
               :key="id"
-              :to="`/product/${id}`"
+              :to="`/products/${id}`"
               class="px-4 py-3 flex gap-3 cursor-pointer transition-colors items-center hover:bg-cc-grey-f7"
               @click="showDropdown = false"
             >

@@ -10,13 +10,38 @@ export function useAllProducts() {
   })
 }
 
-export function useProducts(category?: MaybeRef<string>) {
-  const categoryVal = toValue(category)
+export interface UseProductsParams {
+  city?: string
+  category?: string
+  q?: string
+  sort?: string
+  page?: number
+  limit?: number
+}
+
+export function useProducts(params: MaybeRef<UseProductsParams>) {
+  const resolved = computed(() => toValue(params))
 
   return useQuery({
-    queryKey: queryKeys.products.list(categoryVal),
-    queryFn: () =>
-      $fetch<ProductListRes>(`/api/products${categoryVal ? `?category=${categoryVal}` : ''}`),
+    queryKey: computed(() => queryKeys.products.list({ ...resolved.value })),
+    queryFn: () => {
+      const p = resolved.value
+      const searchParams = new URLSearchParams()
+      if (p.city)
+        searchParams.set('city', p.city)
+      if (p.category)
+        searchParams.set('category', p.category)
+      if (p.q)
+        searchParams.set('q', p.q)
+      if (p.sort)
+        searchParams.set('sort', p.sort)
+      if (p.page)
+        searchParams.set('page', String(p.page))
+      if (p.limit)
+        searchParams.set('limit', String(p.limit))
+      const qs = searchParams.toString()
+      return $fetch<ProductListRes>(`/api/products${qs ? `?${qs}` : ''}`)
+    },
   })
 }
 

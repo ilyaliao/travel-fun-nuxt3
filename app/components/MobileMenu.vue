@@ -62,7 +62,7 @@ const regions = Array.from(cityPos.entries()).map(([key, label]) => ({
                 <NuxtLink
                   v-for="city in region.cities"
                   :key="city.key"
-                  :to="`/city/${city.key}`"
+                  :to="`/products/city/${city.key}`"
                   class="text-body text-cc-grey-66 hover:text-cc-primary"
                   @click="open = false"
                 >

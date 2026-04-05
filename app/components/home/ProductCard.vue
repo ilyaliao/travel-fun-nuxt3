@@ -17,7 +17,7 @@ const cityName = computed(() => cityMap.get(product.value.city) || product.value
 
 <template>
   <NuxtLink
-    :to="`/product/${product.id}`"
+    :to="`/products/${product.id}`"
     class="group flex flex-col cursor-pointer transition-all duration-300 items-start relative hover:brightness-[.8]"
   >
     <div

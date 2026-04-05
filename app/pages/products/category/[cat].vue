@@ -40,38 +40,40 @@ useSeoMeta({
 
 <template>
   <div class="mx-auto px-4 py-8 max-w-[1296px]">
-    <UiBreadcrumb class="mb-6">
-      <UiBreadcrumbItem>
+    <UiBreadcrumbBreadcrumb class="mb-6">
+      <UiBreadcrumbBreadcrumbItem>
         <NuxtLink to="/" class="hover:text-cc-primary">
           首頁
         </NuxtLink>
-      </UiBreadcrumbItem>
-      <UiBreadcrumbSeparator />
-      <UiBreadcrumbItem>
+      </UiBreadcrumbBreadcrumbItem>
+      <UiBreadcrumbBreadcrumbSeparator />
+      <UiBreadcrumbBreadcrumbItem>
         <NuxtLink to="/products" class="hover:text-cc-primary">
           景點套票
         </NuxtLink>
-      </UiBreadcrumbItem>
-      <UiBreadcrumbSeparator />
-      <UiBreadcrumbItem>
+      </UiBreadcrumbBreadcrumbItem>
+      <UiBreadcrumbBreadcrumbSeparator />
+      <UiBreadcrumbBreadcrumbItem>
         <span class="text-cc-black">{{ categoryName }}</span>
-      </UiBreadcrumbItem>
-    </UiBreadcrumb>
+      </UiBreadcrumbBreadcrumbItem>
+    </UiBreadcrumbBreadcrumb>
 
     <h1 class="text-h2 mb-6">
       {{ categoryName }}
     </h1>
 
-    <ProductGrid
-      :products
+    <ProductProductGrid
+      :products="products"
       :is-loading="isLoading"
+      :sort="currentSort"
       :empty-text="`${categoryName} 目前沒有商品`"
+      @update:sort="(v) => updateQuery({ sort: v, page: undefined })"
     />
 
-    <ProductPagination
+    <ProductProductPagination
       v-if="pagination"
-      :pagination
-      @update:page="(v: number) => updateQuery({ page: v > 1 ? String(v) : undefined })"
+      :pagination="pagination"
+      @update:page="(v) => updateQuery({ page: v > 1 ? String(v) : undefined })"
     />
   </div>
 </template>
