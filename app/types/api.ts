@@ -1,4 +1,4 @@
-import type { Cart, Order, Pagination, Product } from './data'
+import type { Cart, Faq, Order, Pagination, Product, Review } from './data'
 
 export interface BaseApiResponse {
   success: boolean
@@ -18,6 +18,8 @@ export interface ProductListRes extends BaseApiResponse {
 
 export interface ProductDetailRes extends BaseApiResponse {
   product: Product
+  reviews: Review[]
+  faqs: Faq[]
 }
 
 // === Cart ===

@@ -71,4 +71,8 @@ const { isBeginning, isEnd, onSwiper, onSlideChange } = useSwiperInit()
 :deep(.swiper-btn) {
   top: calc(50% - (120px + 8px) / 2);
 }
+
+:deep(.swiper) {
+  padding-bottom: 8px;
+}
 </style>

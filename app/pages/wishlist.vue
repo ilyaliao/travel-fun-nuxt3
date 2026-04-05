@@ -1,30 +1,26 @@
 <script setup lang="ts">
-const { data } = useFavoritesQuery()
+const { data } = useFavoritesQuery();
 
 const wishlistProducts = computed(
-  () => data.value?.data?.map(f => f.product).filter(Boolean) || [],
-)
+  () => data.value?.data?.map((f) => f.product).filter(Boolean) || [],
+);
 
-useSeoMeta({ title: '收藏清單' })
+useSeoMeta({ title: "收藏清單" });
 </script>
 
 <template>
   <div class="mx-auto px-4 py-8 max-w-[1296px]">
-    <UiBreadcrumbBreadcrumb class="mb-6">
-      <UiBreadcrumbBreadcrumbItem>
-        <NuxtLink to="/" class="hover:text-cc-primary">
-          首頁
-        </NuxtLink>
-      </UiBreadcrumbBreadcrumbItem>
-      <UiBreadcrumbBreadcrumbSeparator />
-      <UiBreadcrumbBreadcrumbItem>
+    <UiBreadcrumb class="mb-6">
+      <UiBreadcrumbItem>
+        <NuxtLink to="/" class="hover:text-cc-primary"> 首頁 </NuxtLink>
+      </UiBreadcrumbItem>
+      <UiBreadcrumbSeparator />
+      <UiBreadcrumbItem>
         <span class="text-cc-black">收藏清單</span>
-      </UiBreadcrumbBreadcrumbItem>
-    </UiBreadcrumbBreadcrumb>
+      </UiBreadcrumbItem>
+    </UiBreadcrumb>
 
-    <h1 class="text-h3 mb-6">
-      收藏清單
-    </h1>
+    <h1 class="text-h3 mb-6">收藏清單</h1>
 
     <div
       v-if="wishlistProducts.length"

@@ -27,20 +27,22 @@ function increment() {
 </script>
 
 <template>
-  <div class="border border-cc-grey-d4 rounded-[5px] inline-flex items-center">
+  <div class="border border-cc-grey-d4 rounded-xl inline-flex items-center">
     <button
       type="button"
-      class="inline-flex h-10 w-10 transition-colors items-center justify-center hover:bg-cc-grey-f7 disabled:(opacity-50 pointer-events-none)"
+      class="rounded-l-xl inline-flex h-10 w-10 transition-colors items-center justify-center hover:bg-cc-grey-f7 disabled:(opacity-40 pointer-events-none)"
       :disabled="modelValue <= min"
       aria-label="減少數量"
       @click="decrement"
     >
       <div class="i-material-symbols-remove h-5 w-5" />
     </button>
-    <span class="text-body font-medium text-center min-w-10 select-none">{{ modelValue }}</span>
+    <span class="text-body font-semibold text-center min-w-10 select-none tabular-nums">{{
+      modelValue
+    }}</span>
     <button
       type="button"
-      class="inline-flex h-10 w-10 transition-colors items-center justify-center hover:bg-cc-grey-f7 disabled:(opacity-50 pointer-events-none)"
+      class="rounded-r-xl inline-flex h-10 w-10 transition-colors items-center justify-center hover:bg-cc-grey-f7 disabled:(opacity-40 pointer-events-none)"
       :disabled="modelValue >= max"
       aria-label="增加數量"
       @click="increment"

@@ -51,106 +51,26 @@ export const sortMap = new Map<Sort, string>()
   .set(Sort.PriceLowToHigh, '價格：低到高')
   .set(Sort.NewArrivals, '最新上架')
 
-export const mockMap = [
-  { id: 1, lat: 25.0425, lng: 121.5468 },
-  { id: 2, lat: 25.1023, lng: 121.3321 },
-  { id: 3, lat: 25.1123, lng: 121.3221 },
-  { id: 4, lat: 25.0423, lng: 121.54271 },
-  { id: 5, lat: 25.1423, lng: 121.522 },
-  { id: 6, lat: 25.1623, lng: 121.4922 },
-  { id: 7, lat: 25.0013, lng: 121.5122 },
-  { id: 8, lat: 25.1283, lng: 121.5471 },
-]
-
-export const mockProducts = [
-  {
-    evaluate: 4.5,
-    evaluateTotal: 23,
-    image: '/images/city/city_taipei.jpg',
-    location: '新北市',
-    originprice: 1000,
-    price: 700,
-    title: '北海岸自行車一日遊',
-  },
-  {
-    evaluate: 4,
-    evaluateTotal: 23,
-    image: '/images/city/city_kaohsiung.jpg',
-    location: '台中',
-    originprice: 250,
-    price: 200,
-    title: '臺灣國家美術館門票',
-  },
-  {
-    evaluate: 4.5,
-    evaluateTotal: 23,
-    image: '/images/city/city_taichung.jpg',
-    location: '台北',
-    originprice: 1000,
-    price: 800,
-    title: '台北野柳地質公園半日遊',
-  },
-  {
-    evaluate: 4,
-    evaluateTotal: 23,
-    image: '/images/city/city_penghu.jpg',
-    location: '台中',
-    originprice: 400,
-    price: 300,
-    title: '台中大坑風景區租單車',
-  },
-  {
-    evaluate: 5,
-    evaluateTotal: 23,
-    image: '/images/city/city_taipei.jpg',
-    location: '台南',
-    originprice: 800,
-    price: 500,
-    title: '台南安平漁港釣魚體驗',
-  },
-  {
-    evaluate: 4.5,
-    evaluateTotal: 23,
-    image: '/images/city/city_kaohsiung.jpg',
-    location: '屏東',
-    originprice: 700,
-    price: 500,
-    title: '墾丁水上活動｜香蕉船',
-  },
-  {
-    evaluate: 4.5,
-    evaluateTotal: 23,
-    image: '/images/city/city_tainan.jpg',
-    location: '新北市',
-    originprice: 1000,
-    price: 800,
-    title: '石門水庫單車一日遊',
-  },
-  {
-    evaluate: 4,
-    evaluateTotal: 23,
-    image: '/images/city/city_taichung.jpg',
-    location: '台中',
-    originprice: 300,
-    price: 250,
-    title: '鹿港老街踏青體驗',
-  },
-  {
-    evaluate: 4.5,
-    evaluateTotal: 23,
-    image: '/images/city/city_kaohsiung.jpg',
-    location: '花蓮',
-    originprice: 1899,
-    price: 1599,
-    title: '太魯閣國家公園一日遊',
-  },
-  {
-    evaluate: 4,
-    evaluateTotal: 23,
-    image: '/images/city/city_taichung.jpg',
-    location: '彰化',
-    originprice: 999,
-    price: 799,
-    title: '彰化鹿港｜古蹟文化探索一日遊',
-  },
-]
+export const cityImageMap = new Map<string, string>()
+  .set('taipei', 'https://images.unsplash.com/photo-1587959133322-6f38bf3d21ad?w=800&q=80')
+  .set('keelung', 'https://images.unsplash.com/photo-1647685102327-6c34417ed9ed?w=800&q=80')
+  .set('new-taipei', 'https://images.unsplash.com/photo-1540187334920-54e87c2771c0?w=800&q=80')
+  .set('taoyuan', 'https://images.unsplash.com/photo-1603416547763-c637d96f5fef?w=800&q=80')
+  .set('hsinchu', 'https://images.unsplash.com/photo-1603416529883-545298b8b85d?w=800&q=80')
+  .set('hsinchu-county', 'https://images.unsplash.com/photo-1625427890696-47a177a730b2?w=800&q=80')
+  .set('miaoli', 'https://images.unsplash.com/photo-1748439844626-770f60f8f325?w=800&q=80')
+  .set('taichung', 'https://images.unsplash.com/photo-1675227422449-f2d4d9a731dd?w=800&q=80')
+  .set('changhua', 'https://images.unsplash.com/photo-1665296380265-d98d74d4571f?w=800&q=80')
+  .set('nantou', 'https://images.unsplash.com/photo-1600280254948-231f1e57ee3d?w=800&q=80')
+  .set('yunlin', 'https://images.unsplash.com/photo-1695015768870-e0cfd454f35d?w=800&q=80')
+  .set('chiayi', 'https://images.unsplash.com/photo-1575467627652-0c597f6dba77?w=800&q=80')
+  .set('chiayi-county', 'https://images.unsplash.com/photo-1587108639646-c6ea7b46b247?w=800&q=80')
+  .set('tainan', 'https://images.unsplash.com/photo-1568213960603-7746a0fc4d55?w=800&q=80')
+  .set('kaohsiung', 'https://images.unsplash.com/photo-1677607221983-630ffb5ea1d8?w=800&q=80')
+  .set('pingtung', 'https://images.unsplash.com/photo-1621315875054-3adb72ab43bf?w=800&q=80')
+  .set('yilan', 'https://images.unsplash.com/photo-1694005891521-150e805eebf1?w=800&q=80')
+  .set('hualien', 'https://images.unsplash.com/photo-1617544530529-b5e9b791b6a2?w=800&q=80')
+  .set('taitung', 'https://images.unsplash.com/photo-1622660566657-2aa1c96848e6?w=800&q=80')
+  .set('penghu', 'https://images.unsplash.com/photo-1649001254038-48a019e3a152?w=800&q=80')
+  .set('kinmen', 'https://images.unsplash.com/photo-1670737619030-cd61f247eafd?w=800&q=80')
+  .set('lienchiang', 'https://images.unsplash.com/photo-1737175778221-ccd0b854de50?w=800&q=80')

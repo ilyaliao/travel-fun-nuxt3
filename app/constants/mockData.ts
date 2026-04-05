@@ -1,4 +1,5 @@
 import type { City, New } from '../types'
+import { cityImageMap } from './map'
 
 export const mockNews: New[] = [
   {
@@ -36,27 +37,27 @@ export const mockNews: New[] = [
 export const mockHotCitys: City[] = [
   {
     enName: 'Kaohsiung',
-    image: '/images/city/city_kaohsiung.jpg',
+    image: cityImageMap.get('kaohsiung')!,
     name: '高雄',
   },
   {
     enName: 'Tainan',
-    image: '/images/city/city_tainan.jpg',
+    image: cityImageMap.get('tainan')!,
     name: '台南',
   },
   {
     enName: 'Taichung',
-    image: '/images/city/city_taichung.jpg',
+    image: cityImageMap.get('taichung')!,
     name: '台中',
   },
   {
     enName: 'Penghu',
-    image: '/images/city/city_penghu.jpg',
+    image: cityImageMap.get('penghu')!,
     name: '澎湖',
   },
   {
     enName: 'Chiayi',
-    image: '/images/city/city_chiayi.jpg',
+    image: cityImageMap.get('chiayi')!,
     name: '嘉義',
   },
 ]

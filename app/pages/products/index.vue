@@ -77,15 +77,22 @@ useSeoMeta({ title: '景點套票' })
     </UiBreadcrumb>
 
     <!-- Hero header -->
-    <div
-      class="mb-6 px-6 py-8 rounded-2xl from-cc-primary to-cc-primary/60 via-cc-primary/85 bg-gradient-to-br md:(px-10 py-10)"
-    >
-      <h1 class="text-h3 text-white md:text-h2">
-        景點套票
-      </h1>
-      <p class="text-body text-white/80 mt-2">
-        共 {{ resultCount }} 個景點體驗等你探索
-      </p>
+    <div class="mb-6 rounded-2xl relative overflow-hidden">
+      <img
+        src="/images/banner.jpg"
+        alt=""
+        class="h-full w-full inset-0 absolute object-cover"
+        fetchpriority="high"
+      >
+      <div class="inset-0 absolute from-cc-primary/90 to-cc-primary/50 bg-gradient-to-r" />
+      <div class="px-6 py-8 relative md:(px-10 py-10)">
+        <h1 class="text-h3 text-white tracking-normal md:text-h2">
+          景點套票
+        </h1>
+        <p class="text-base text-white/80 mt-2">
+          共 {{ resultCount }} 個景點體驗等你探索
+        </p>
+      </div>
     </div>
 
     <!-- Filter bar -->

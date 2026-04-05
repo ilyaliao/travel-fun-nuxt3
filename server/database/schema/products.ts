@@ -17,6 +17,7 @@ export const products = sqliteTable('products', {
   evaluateNum: int('evaluate_num').default(0),
   unit: text(),
   features: text(),
+  usage: text(),
   isEnabled: int('is_enabled').default(1),
   createdAt: int('created_at').$defaultFn(() => Math.floor(Date.now() / 1000)),
 })
@@ -29,4 +30,8 @@ export const plans = sqliteTable('plans', {
   title: text(),
   price: int(),
   description: text(),
+  includes: text({ mode: 'json' }).$type<string[]>(),
+  duration: text(),
+  applicableTo: text('applicable_to'),
+  cancellationPolicy: text('cancellation_policy'),
 })

@@ -15,7 +15,7 @@ const hasHalf = computed(() => props.value - fullStars.value >= 0.25)
 </script>
 
 <template>
-  <div class="inline-flex gap-0.5 items-center">
+  <div class="inline-flex gap-0.5 items-center tabular-nums">
     <template v-for="i in max" :key="i">
       <div
         class="h-4 w-4"

@@ -149,7 +149,7 @@ useSeoMeta({
         <p class="text-sm text-white/70 tracking-widest mb-1">
           {{ cityEnName.toUpperCase() }}
         </p>
-        <h1 class="text-h2 text-white md:text-h1">
+        <h1 class="text-h2 text-white tracking-normal md:text-h1">
           {{ cityName }}
         </h1>
       </div>
@@ -199,7 +199,7 @@ useSeoMeta({
 
     <!-- All Products Section -->
     <section>
-      <h2 class="text-h4 mb-4">
+      <h2 class="text-h4 tracking-normal mb-4">
         所有商品
       </h2>
 
@@ -220,7 +220,7 @@ useSeoMeta({
     <!-- Sparse layout CTA -->
     <div
       v-if="!topProducts.length && products.length < 3"
-      class="mb-8 p-6 text-center rounded-xl bg-cc-grey-f7"
+      class="mb-8 mt-8 p-6 text-center rounded-xl bg-cc-grey-f7"
     >
       <p class="text-body text-cc-grey-66 mb-3">
         想看更多旅遊體驗？
@@ -232,7 +232,7 @@ useSeoMeta({
 
     <!-- Nearby Cities -->
     <section v-if="nearbyCities.length" class="mt-10 pt-8">
-      <h2 class="text-h4 mb-1">
+      <h2 class="text-h4 tracking-normal mb-1">
         探索附近城市
       </h2>
       <p class="text-sm text-cc-grey-66 mb-6">

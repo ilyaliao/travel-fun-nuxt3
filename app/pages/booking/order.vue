@@ -1,21 +1,21 @@
 <script setup lang="ts">
-import type { Order } from '~/types'
-import { toast } from 'vue-sonner'
+import type { Order } from "~/types";
+import { toast } from "vue-sonner";
 
-const addOrderMutation = useAddOrder()
+const addOrderMutation = useAddOrder();
 
 const form = reactive({
-  name: '',
-  email: '',
-  tel: '',
-  address: '',
-  message: '',
-})
+  name: "",
+  email: "",
+  tel: "",
+  address: "",
+  message: "",
+});
 
 async function submitOrder() {
   if (!form.name || !form.email || !form.tel || !form.address) {
-    toast.error('請填寫所有必填欄位')
-    return
+    toast.error("請填寫所有必填欄位");
+    return;
   }
 
   const orderData: Order = {
@@ -26,66 +26,60 @@ async function submitOrder() {
       address: form.address,
     },
     message: form.message,
-  }
+  };
 
   addOrderMutation.mutate(
     { data: orderData },
     {
       onSuccess: (res) => {
         if (res.orderId) {
-          navigateTo(`/booking/pay/${res.orderId}`)
+          navigateTo(`/booking/pay/${res.orderId}`);
         }
       },
       onError: () => {
-        toast.error('訂單建立失敗')
+        toast.error("訂單建立失敗");
       },
     },
-  )
+  );
 }
 
-useSeoMeta({ title: '填寫訂單' })
+useSeoMeta({ title: "填寫訂單" });
 </script>
 
 <template>
   <div class="mx-auto px-4 py-8 max-w-2xl">
-    <UiBreadcrumbBreadcrumb class="mb-6">
-      <UiBreadcrumbBreadcrumbItem>
-        <NuxtLink to="/" class="hover:text-cc-primary">
-          首頁
-        </NuxtLink>
-      </UiBreadcrumbBreadcrumbItem>
-      <UiBreadcrumbBreadcrumbSeparator />
-      <UiBreadcrumbBreadcrumbItem>
-        <NuxtLink to="/cart" class="hover:text-cc-primary">
-          購物車
-        </NuxtLink>
-      </UiBreadcrumbBreadcrumbItem>
-      <UiBreadcrumbBreadcrumbSeparator />
-      <UiBreadcrumbBreadcrumbItem>
+    <UiBreadcrumb class="mb-6">
+      <UiBreadcrumbItem>
+        <NuxtLink to="/" class="hover:text-cc-primary"> 首頁 </NuxtLink>
+      </UiBreadcrumbItem>
+      <UiBreadcrumbSeparator />
+      <UiBreadcrumbItem>
+        <NuxtLink to="/cart" class="hover:text-cc-primary"> 購物車 </NuxtLink>
+      </UiBreadcrumbItem>
+      <UiBreadcrumbSeparator />
+      <UiBreadcrumbItem>
         <span class="text-cc-black">填寫訂單</span>
-      </UiBreadcrumbBreadcrumbItem>
-    </UiBreadcrumbBreadcrumb>
+      </UiBreadcrumbItem>
+    </UiBreadcrumb>
 
-    <h1 class="text-h3 mb-6">
-      填寫訂單資料
-    </h1>
+    <h1 class="text-h3 mb-6">填寫訂單資料</h1>
 
     <form class="flex flex-col gap-5" @submit.prevent="submitOrder">
       <div>
         <label class="text-body text-cc-black font-medium mb-1 block">姓名 *</label>
-        <UiInputInput v-model="form.name" placeholder="請輸入姓名" />
+        <UiInput v-model="form.name" placeholder="請輸入姓名" />
       </div>
       <div>
         <label class="text-body text-cc-black font-medium mb-1 block">Email *</label>
-        <UiInputInput v-model="form.email" type="email" placeholder="請輸入 Email" />
+        <UiInput v-model="form.email" type="email" placeholder="請輸入 Email" />
       </div>
       <div>
         <label class="text-body text-cc-black font-medium mb-1 block">電話 *</label>
-        <UiInputInput v-model="form.tel" type="tel" placeholder="請輸入電話" />
+        <UiInput v-model="form.tel" type="tel" placeholder="請輸入電話" />
       </div>
       <div>
         <label class="text-body text-cc-black font-medium mb-1 block">地址 *</label>
-        <UiInputInput v-model="form.address" placeholder="請輸入地址" />
+        <UiInput v-model="form.address" placeholder="請輸入地址" />
       </div>
       <div>
         <label class="text-body text-cc-black font-medium mb-1 block">備註</label>

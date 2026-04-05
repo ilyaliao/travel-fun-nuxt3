@@ -19,6 +19,7 @@ export interface Product {
   evaluate: number
   evaluateNum: number
   features?: string
+  usage?: string
   id: string
   imageUrl: string
   imagesUrl?: string[]
@@ -106,6 +107,27 @@ export interface Plan {
   description: string
   price: number
   title: string
+  includes?: string[]
+  duration?: string
+  applicableTo?: string
+  cancellationPolicy?: string
+}
+
+export interface Review {
+  id: number
+  productId: string
+  userName: string
+  rating: number
+  comment: string
+  createdAt: number
+}
+
+export interface Faq {
+  id: number
+  productId: string
+  question: string
+  answer: string
+  sortOrder: number
 }
 
 export enum Sort {

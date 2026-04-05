@@ -1,3 +1,5 @@
 export * from './coupons'
+export * from './faqs'
 export * from './products'
+export * from './reviews'
 export * from './users'
