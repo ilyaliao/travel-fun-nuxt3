@@ -44,7 +44,7 @@ const categoryName = computed(
         v-if="checkFavorite(product.id)"
         type="button"
         aria-label="取消收藏"
-        class="p-1.5 rounded-full bg-white cursor-pointer shadow-sm right-2.5 top-2.5 absolute z-10 focus-visible:(outline-none ring-2 ring-cc-primary)"
+        class="p-1.5 rounded-full bg-white cursor-pointer shadow-sm transition-transform duration-200 right-2.5 top-2.5 absolute z-10 focus-visible:(outline-none ring-2 ring-cc-primary) hover:scale-110"
         @click.prevent="toggleFavorite(product.id, product.title)"
       >
         <div class="i-material-symbols-favorite text-cc-accent h-5 w-5" />
@@ -53,7 +53,7 @@ const categoryName = computed(
         v-else
         type="button"
         aria-label="加入收藏"
-        class="p-1.5 rounded-full bg-white cursor-pointer shadow-sm right-2.5 top-2.5 absolute z-10 focus-visible:(outline-none ring-2 ring-cc-primary)"
+        class="p-1.5 rounded-full bg-white cursor-pointer shadow-sm transition-transform duration-200 right-2.5 top-2.5 absolute z-10 focus-visible:(outline-none ring-2 ring-cc-primary) hover:scale-110"
         @click.prevent="toggleFavorite(product.id, product.title)"
       >
         <div class="i-material-symbols-favorite-outline text-cc-grey-9f h-5 w-5" />
@@ -69,7 +69,7 @@ const categoryName = computed(
 
     <!-- Card body -->
     <div class="p-3 flex flex-1 flex-col gap-1">
-      <div class="text-xs text-cc-grey-9f inline-flex gap-1 items-center">
+      <div class="text-xs text-cc-grey-66 inline-flex gap-1 items-center">
         <div class="i-material-symbols-location-on-outline h-4 w-4" />
         {{ cityName }}
       </div>
@@ -83,7 +83,7 @@ const categoryName = computed(
         </span>
         <span
           v-if="product.origin_price > product.price"
-          class="text-xs text-cc-grey-9f line-through"
+          class="text-xs text-cc-grey-66 line-through"
         >
           {{ currency(product.origin_price, "$") }}
         </span>

@@ -112,7 +112,7 @@ const hasActiveFilters = computed(
               全部地區
             </button>
             <div v-for="[region, cities] in regionEntries" :key="region">
-              <p class="text-xs text-cc-grey-9f font-medium mb-1.5">
+              <p class="text-xs text-cc-grey-66 font-medium mb-1.5">
                 {{ cityPos.get(region) }}
               </p>
               <div class="flex flex-wrap gap-1.5">
@@ -186,7 +186,7 @@ const hasActiveFilters = computed(
     </div>
 
     <!-- Results count -->
-    <p v-if="resultCount !== undefined" class="text-sm text-cc-grey-9f">
+    <p v-if="resultCount !== undefined" class="text-sm text-cc-grey-66">
       共 {{ resultCount }} 項商品
     </p>
   </div>

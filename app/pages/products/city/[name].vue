@@ -235,7 +235,7 @@ useSeoMeta({
       <h2 class="text-h4 mb-1">
         探索附近城市
       </h2>
-      <p class="text-sm text-cc-grey-9f mb-6">
+      <p class="text-sm text-cc-grey-66 mb-6">
         {{ regionLabel }}的其他熱門目的地
       </p>
       <div class="pb-2 flex gap-6 overflow-x-auto">
