@@ -38,7 +38,7 @@ function updateQuery(patch: Record<string, string | undefined>) {
 }
 
 // Server-side filtered data
-const { data, isLoading } = useProducts(
+const { data, isLoading, isFetching } = useProducts(
   computed(() => ({
     city: selectedCity.value || undefined,
     category: selectedCategory.value || undefined,
@@ -51,92 +51,79 @@ const { data, isLoading } = useProducts(
 
 const products = computed(() => data.value?.products ?? [])
 const pagination = computed(() => data.value?.pagination)
+const resultCount = computed(() => pagination.value?.total ?? products.value.length)
 
-// Mobile filter sheet
-const filterSheetOpen = ref(false)
+// Scroll to top when page changes
+watch(currentPage, () => {
+  window.scrollTo({ top: 0, behavior: 'smooth' })
+})
 
 useSeoMeta({ title: '景點套票' })
 </script>
 
 <template>
-  <div class="mx-auto px-4 py-8 max-w-[1296px]">
-    <UiBreadcrumbBreadcrumb class="mb-6">
-      <UiBreadcrumbBreadcrumbItem>
+  <div class="mx-auto px-4 py-6 max-w-[1296px]">
+    <!-- Breadcrumb -->
+    <UiBreadcrumb class="mb-4">
+      <UiBreadcrumbItem>
         <NuxtLink to="/" class="hover:text-cc-primary">
           首頁
         </NuxtLink>
-      </UiBreadcrumbBreadcrumbItem>
-      <UiBreadcrumbBreadcrumbSeparator />
-      <UiBreadcrumbBreadcrumbItem>
+      </UiBreadcrumbItem>
+      <UiBreadcrumbSeparator />
+      <UiBreadcrumbItem>
         <span class="text-cc-black">景點套票</span>
-      </UiBreadcrumbBreadcrumbItem>
-    </UiBreadcrumbBreadcrumb>
+      </UiBreadcrumbItem>
+    </UiBreadcrumb>
 
-    <h1 class="text-h3 mb-6">
-      景點套票
-    </h1>
-
-    <div class="flex gap-8">
-      <!-- Desktop sidebar -->
-      <aside class="shrink-0 w-56 hidden lg:block">
-        <ProductProductFilters
-          :selected-city="selectedCity"
-          :selected-category="selectedCategory"
-          @update:selected-city="(v) => updateQuery({ city: v || undefined, page: undefined })"
-          @update:selected-category="
-            (v) => updateQuery({ category: v || undefined, page: undefined })
-          "
-        />
-      </aside>
-
-      <!-- Mobile filter sheet -->
-      <UiSheetSheet v-model:open="filterSheetOpen">
-        <UiSheetSheetTrigger class="lg:hidden">
-          <UiButtonButton variant="outline" size="sm">
-            <div class="i-material-symbols-filter-list mr-1 h-4 w-4" />
-            篩選
-          </UiButtonButton>
-        </UiSheetSheetTrigger>
-        <UiSheetSheetContent side="left">
-          <div class="mt-8">
-            <ProductProductFilters
-              :selected-city="selectedCity"
-              :selected-category="selectedCategory"
-              @update:selected-city="
-                (v) => {
-                  updateQuery({ city: v || undefined, page: undefined });
-                  filterSheetOpen = false;
-                }
-              "
-              @update:selected-category="
-                (v) => {
-                  updateQuery({ category: v || undefined, page: undefined });
-                  filterSheetOpen = false;
-                }
-              "
-            />
-          </div>
-        </UiSheetSheetContent>
-      </UiSheetSheet>
-
-      <!-- Main content -->
-      <div class="flex-1 min-w-0">
-        <!-- Search -->
-        <UiInputInput v-model="searchInput" placeholder="搜尋景點名稱或城市..." class="mb-4" />
-
-        <ProductProductGrid
-          :products="products"
-          :is-loading="isLoading"
-          :sort="currentSort"
-          @update:sort="(v) => updateQuery({ sort: v, page: undefined })"
-        />
-
-        <ProductProductPagination
-          v-if="pagination"
-          :pagination="pagination"
-          @update:page="(v) => updateQuery({ page: v > 1 ? String(v) : undefined })"
-        />
-      </div>
+    <!-- Hero header -->
+    <div
+      class="mb-6 px-6 py-8 rounded-2xl from-cc-primary to-cc-primary/60 via-cc-primary/85 bg-gradient-to-br md:(px-10 py-10)"
+    >
+      <h1 class="text-h3 text-white md:text-h2">
+        景點套票
+      </h1>
+      <p class="text-body text-white/80 mt-2">
+        共 {{ resultCount }} 個景點體驗等你探索
+      </p>
     </div>
+
+    <!-- Filter bar -->
+    <ProductFilters
+      :selected-city="selectedCity"
+      :selected-category="selectedCategory"
+      :sort="currentSort"
+      :search-input="searchInput"
+      :result-count="resultCount"
+      class="mb-6"
+      @update:selected-city="(v: string) => updateQuery({ city: v || undefined, page: undefined })"
+      @update:selected-category="
+        (v: string) => updateQuery({ category: v || undefined, page: undefined })
+      "
+      @update:sort="(v: Sort) => updateQuery({ sort: v, page: undefined })"
+      @update:search-input="searchInput = $event"
+      @clear="
+        () => {
+          updateQuery({
+            city: undefined,
+            category: undefined,
+            q: undefined,
+            sort: undefined,
+            page: undefined,
+          });
+          searchInput = '';
+        }
+      "
+    />
+
+    <!-- Product grid -->
+    <ProductGrid :products="products" :is-loading="isLoading" :is-fetching="isFetching" />
+
+    <!-- Pagination -->
+    <ProductPagination
+      v-if="pagination"
+      :pagination="pagination"
+      @update:page="(v: number) => updateQuery({ page: v > 1 ? String(v) : undefined })"
+    />
   </div>
 </template>
