@@ -2,6 +2,8 @@
 import { Toaster } from 'vue-sonner'
 import { appName } from '~/constants'
 
+useFavoriteSyncOnLogin()
+
 useHead({
   title: appName,
   titleTemplate: title => (title === appName ? title : `${title} | ${appName}`),

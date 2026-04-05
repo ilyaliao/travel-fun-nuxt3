@@ -9,8 +9,8 @@ const isFixed = computed(() => {
   return new Set(['index', 'city-name', 'country-name']).has(name)
 })
 
-const { data: favData } = useFavoritesQuery()
-const hasFavorites = computed(() => (favData.value?.data?.length || 0) > 0)
+const { favoriteIds } = useFavoriteHelpers()
+const hasFavorites = computed(() => favoriteIds.value.size > 0)
 const { data: cartData } = useCartQuery()
 const cartCount = computed(() => cartData.value?.data?.carts?.length || 0)
 </script>
