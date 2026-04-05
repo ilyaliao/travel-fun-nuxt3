@@ -106,6 +106,7 @@ export interface City {
 export interface Plan {
   description: string
   price: number
+  origin_price?: number
   title: string
   includes?: string[]
   duration?: string
