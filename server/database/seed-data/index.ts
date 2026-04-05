@@ -62,3 +62,30 @@ export const seedReviews = allCityData.flatMap(({ city, products }) =>
 export const seedFaqs = allCityData.flatMap(({ city, products }) =>
   products.flatMap(p => generateFaqs(city, p)),
 )
+
+export const seedCoupons = [
+  {
+    code: 'SUMMER90',
+    title: '夏日九折',
+    type: 'percent' as const,
+    value: 10,
+    minAmount: 1000,
+    isEnabled: 1,
+  },
+  {
+    code: 'WELCOME200',
+    title: '新客折200',
+    type: 'fixed' as const,
+    value: 200,
+    minAmount: 500,
+    isEnabled: 1,
+  },
+  {
+    code: 'FREE100',
+    title: '滿額折百',
+    type: 'fixed' as const,
+    value: 100,
+    minAmount: 2000,
+    isEnabled: 1,
+  },
+]

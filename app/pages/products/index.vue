@@ -38,7 +38,7 @@ function updateQuery(patch: Record<string, string | undefined>) {
 }
 
 // Server-side filtered data
-const { data, isLoading, isFetching } = useProducts(
+const { data, isLoading, asyncStatus } = useProducts(
   computed(() => ({
     city: selectedCity.value || undefined,
     category: selectedCategory.value || undefined,
@@ -63,7 +63,6 @@ useSeoMeta({ title: '景點套票' })
 
 <template>
   <div class="mx-auto px-4 py-6 max-w-[1296px]">
-    <!-- Breadcrumb -->
     <UiBreadcrumb class="mb-4">
       <UiBreadcrumbItem>
         <NuxtLink to="/" class="hover:text-cc-primary">
@@ -76,7 +75,6 @@ useSeoMeta({ title: '景點套票' })
       </UiBreadcrumbItem>
     </UiBreadcrumb>
 
-    <!-- Hero header -->
     <div class="mb-6 rounded-2xl relative overflow-hidden">
       <img
         src="/images/banner.jpg"
@@ -95,7 +93,6 @@ useSeoMeta({ title: '景點套票' })
       </div>
     </div>
 
-    <!-- Filter bar -->
     <ProductFilters
       :selected-city="selectedCity"
       :selected-category="selectedCategory"
@@ -123,13 +120,11 @@ useSeoMeta({ title: '景點套票' })
       "
     />
 
-    <!-- Product grid -->
-    <ProductGrid :products="products" :is-loading="isLoading" :is-fetching="isFetching" />
+    <ProductGrid :products :is-loading="isLoading" :is-fetching="asyncStatus === 'loading'" />
 
-    <!-- Pagination -->
     <ProductPagination
       v-if="pagination"
-      :pagination="pagination"
+      :pagination
       @update:page="(v: number) => updateQuery({ page: v > 1 ? String(v) : undefined })"
     />
   </div>

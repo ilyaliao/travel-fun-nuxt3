@@ -1,17 +1,16 @@
 <script setup lang="ts">
-const props = withDefaults(
-  defineProps<{
-    value: number
-    max?: number
-    count?: number
-  }>(),
-  {
-    max: 5,
-  },
-)
+const {
+  value,
+  max = 5,
+  count,
+} = defineProps<{
+  value: number
+  max?: number
+  count?: number
+}>()
 
-const fullStars = computed(() => Math.floor(props.value))
-const hasHalf = computed(() => props.value - fullStars.value >= 0.25)
+const fullStars = computed(() => Math.floor(value))
+const hasHalf = computed(() => value - fullStars.value >= 0.25)
 </script>
 
 <template>

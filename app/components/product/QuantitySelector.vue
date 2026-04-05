@@ -1,28 +1,17 @@
 <script setup lang="ts">
-const props = withDefaults(
-  defineProps<{
-    modelValue: number
-    min?: number
-    max?: number
-  }>(),
-  {
-    min: 1,
-    max: 99,
-  },
-)
-
-const emit = defineEmits<{
-  'update:modelValue': [value: number]
+const { min = 1, max = 99 } = defineProps<{
+  min?: number
+  max?: number
 }>()
-
+const model = defineModel<number>({ required: true })
 function decrement() {
-  if (props.modelValue > props.min)
-    emit('update:modelValue', props.modelValue - 1)
+  if (model.value > min)
+    model.value--
 }
 
 function increment() {
-  if (props.modelValue < props.max)
-    emit('update:modelValue', props.modelValue + 1)
+  if (model.value < max)
+    model.value++
 }
 </script>
 
@@ -31,19 +20,19 @@ function increment() {
     <button
       type="button"
       class="rounded-l-xl inline-flex h-10 w-10 transition-colors items-center justify-center hover:bg-cc-grey-f7 disabled:(opacity-40 pointer-events-none)"
-      :disabled="modelValue <= min"
+      :disabled="model <= min"
       aria-label="減少數量"
       @click="decrement"
     >
       <div class="i-material-symbols-remove h-5 w-5" />
     </button>
     <span class="text-body font-semibold text-center min-w-10 select-none tabular-nums">{{
-      modelValue
+      model
     }}</span>
     <button
       type="button"
       class="rounded-r-xl inline-flex h-10 w-10 transition-colors items-center justify-center hover:bg-cc-grey-f7 disabled:(opacity-40 pointer-events-none)"
-      :disabled="modelValue >= max"
+      :disabled="model >= max"
       aria-label="增加數量"
       @click="increment"
     >

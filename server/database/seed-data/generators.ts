@@ -14,7 +14,7 @@ function pickFromPool<T>(pool: T[], seed: number, count: number): T[] {
   const result: T[] = []
   const len = pool.length
   for (let i = 0; i < count; i++) {
-    result.push(pool[(seed + i * 7) % len])
+    result.push(pool[(seed + i * 7) % len]!)
   }
   return result
 }
@@ -30,7 +30,7 @@ function resolveImages(
   }
   const seed = hashCode(productId)
   const picked = pickFromPool(pool, seed, 3)
-  return { imageUrl: picked[0], imagesUrl: picked.slice(1) }
+  return { imageUrl: picked[0]!, imagesUrl: picked.slice(1) }
 }
 
 // ---------- Usage HTML ----------
@@ -215,7 +215,7 @@ export function generateReviews(city: string, def: ProductDefinition): SeedRevie
   const reviews: SeedReview[] = []
   for (let i = 0; i < count; i++) {
     const idx = (seed + i * 13) % REVIEWER_NAMES.length
-    const feature = features[(seed + i * 3) % features.length]
+    const feature = features[(seed + i * 3) % features.length]!
 
     let rating: number
     let templates: string[]
@@ -234,13 +234,14 @@ export function generateReviews(city: string, def: ProductDefinition): SeedRevie
     }
 
     const tplIdx = (seed + i * 11) % templates.length
-    const comment = templates[tplIdx]
-      .replace('{feature}', feature.trim())
-      .replace('{title}', def.title)
+    const comment = templates[tplIdx]!.replace('{feature}', feature.trim()).replace(
+      '{title}',
+      def.title,
+    )
 
     reviews.push({
       productId,
-      userName: REVIEWER_NAMES[idx],
+      userName: REVIEWER_NAMES[idx]!,
       rating,
       comment,
       createdAt: baseTime + i * 86400 * 3 + (seed % 86400),

@@ -39,13 +39,11 @@ const hasActiveFilters = computed(
 
 <template>
   <div class="flex flex-col gap-3">
-    <!-- Filter bar -->
     <div
       role="toolbar"
       aria-label="篩選條件"
       class="px-4 py-3 rounded-xl bg-white flex flex-wrap gap-2 shadow-sm items-center"
     >
-      <!-- Category chips -->
       <button
         type="button"
         class="text-sm px-4 py-1.5 border rounded-full transition"
@@ -73,10 +71,8 @@ const hasActiveFilters = computed(
         {{ label }}
       </button>
 
-      <!-- Separator (hidden when hideCity) -->
       <div v-if="!hideCity" class="mx-1 bg-cc-grey-d4 h-6 w-px hidden sm:block" />
 
-      <!-- Region dropdown (hidden when hideCity) -->
       <UiPopover v-if="!hideCity" v-model:open="cityOpen">
         <UiPopoverTrigger>
           <button
@@ -139,7 +135,6 @@ const hasActiveFilters = computed(
         </UiPopoverContent>
       </UiPopover>
 
-      <!-- Sort dropdown -->
       <div class="relative">
         <select
           :value="sort"
@@ -156,10 +151,8 @@ const hasActiveFilters = computed(
         />
       </div>
 
-      <!-- Spacer -->
       <div class="flex-1 hidden md:block" />
 
-      <!-- Search -->
       <div class="w-full relative sm:w-auto">
         <div
           class="i-material-symbols-search text-cc-grey-9f h-4 w-4 left-3 top-1/2 absolute -translate-y-1/2"
@@ -174,7 +167,6 @@ const hasActiveFilters = computed(
         >
       </div>
 
-      <!-- Clear all -->
       <button
         v-if="hasActiveFilters"
         type="button"
@@ -185,7 +177,6 @@ const hasActiveFilters = computed(
       </button>
     </div>
 
-    <!-- Results count -->
     <p v-if="resultCount !== undefined" class="text-sm text-cc-grey-66">
       共 {{ resultCount }} 項商品
     </p>

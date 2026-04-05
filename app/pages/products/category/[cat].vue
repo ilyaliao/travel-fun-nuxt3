@@ -63,14 +63,14 @@ useSeoMeta({
     </h1>
 
     <ProductGrid
-      :products="products"
+      :products
       :is-loading="isLoading"
       :empty-text="`${categoryName} 目前沒有商品`"
     />
 
     <ProductPagination
       v-if="pagination"
-      :pagination="pagination"
+      :pagination
       @update:page="(v: number) => updateQuery({ page: v > 1 ? String(v) : undefined })"
     />
   </div>

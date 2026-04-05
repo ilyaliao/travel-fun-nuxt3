@@ -6,7 +6,7 @@ import {
   DialogPortal,
   DialogRoot,
   DialogTrigger,
-} from 'radix-vue'
+} from 'reka-ui'
 import { cityData, cityMap, cityPos } from '~/constants'
 
 const open = ref(false)
@@ -14,6 +14,15 @@ const expandedRegion = ref<string | null>(null)
 
 function toggleRegion(key: string) {
   expandedRegion.value = expandedRegion.value === key ? null : key
+}
+
+const { loggedIn } = useUserSession()
+const { mutateAsync: logout } = useLogout()
+
+async function handleLogout() {
+  open.value = false
+  await logout()
+  await navigateTo('/login')
 }
 
 const regions = Array.from(cityPos.entries()).map(([key, label]) => ({
@@ -93,7 +102,16 @@ const regions = Array.from(cityPos.entries()).map(([key, label]) => ({
 
           <div class="bg-cc-grey-e9 h-px" />
 
+          <button
+            v-if="loggedIn"
+            class="text-body text-cc-black py-2 flex gap-2 cursor-pointer items-center"
+            @click="handleLogout"
+          >
+            <div class="i-material-symbols-logout h-5 w-5" />
+            登出
+          </button>
           <NuxtLink
+            v-else
             to="/login"
             class="text-body text-cc-black py-2 flex gap-2 items-center"
             @click="open = false"

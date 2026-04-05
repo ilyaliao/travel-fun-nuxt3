@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { useCartQuery } from '~/composables/queries/useCarts'
 import { websiteConfig } from '~/config/website'
 
 const route = useRoute()
@@ -11,8 +10,15 @@ const isFixed = computed(() => {
 
 const { favoriteIds } = useFavoriteHelpers()
 const hasFavorites = computed(() => favoriteIds.value.size > 0)
-const { data: cartData } = useCartQuery()
-const cartCount = computed(() => cartData.value?.data?.carts?.length || 0)
+const cartStore = useCartStore()
+const cartCount = computed(() => cartStore.totalItems)
+const { loggedIn } = useUserSession()
+const { mutateAsync: logout } = useLogout()
+
+async function handleLogout() {
+  await logout()
+  await navigateTo('/login')
+}
 </script>
 
 <template>
@@ -57,18 +63,34 @@ const cartCount = computed(() => cartData.value?.data?.carts?.length || 0)
               aria-label="願望清單"
               class="leading-none focus-visible:(outline-none rounded-full ring-2 ring-white/70)"
             >
-              <div
-                v-if="hasFavorites"
-                class="i-material-symbols-favorite text-cc-accent h-6 w-6 cursor-pointer transition-transform duration-300 hover:scale-125"
-              />
-              <div
-                v-else
-                class="i-material-symbols-favorite-outline h-6 w-6 cursor-pointer transition-transform duration-300 hover:scale-125"
-              />
+              <ClientOnly>
+                <div
+                  v-if="hasFavorites"
+                  class="i-material-symbols-favorite text-cc-accent h-6 w-6 cursor-pointer transition-transform duration-300 hover:scale-125"
+                />
+                <div
+                  v-else
+                  class="i-material-symbols-favorite-outline h-6 w-6 cursor-pointer transition-transform duration-300 hover:scale-125"
+                />
+                <template #fallback>
+                  <div
+                    class="i-material-symbols-favorite-outline h-6 w-6 cursor-pointer transition-transform duration-300 hover:scale-125"
+                  />
+                </template>
+              </ClientOnly>
             </NuxtLink>
           </div>
 
+          <button
+            v-if="loggedIn"
+            class="text-base px-4 py-2 rounded-[50px] bg-cc-overlay gap-[6px] hidden whitespace-nowrap transition-colors duration-300 items-center justify-center hover:bg-cc-accent lg:flex"
+            @click="handleLogout"
+          >
+            <div class="i-material-symbols-logout shrink-0 h-6 w-6" />
+            登出
+          </button>
           <NuxtLink
+            v-else
             to="/login"
             class="text-base px-4 py-2 rounded-[50px] bg-cc-overlay gap-[6px] hidden whitespace-nowrap transition-colors duration-300 items-center justify-center hover:bg-cc-accent lg:flex"
           >

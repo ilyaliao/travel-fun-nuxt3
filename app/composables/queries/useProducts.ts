@@ -1,12 +1,11 @@
 import type { MaybeRef } from 'vue'
 import type { AllProductRes, ProductDetailRes, ProductListRes } from '~/types'
-import { useQuery } from '@tanstack/vue-query'
-import { queryKeys } from './keys'
+import { useQuery } from '@pinia/colada'
 
 export function useAllProducts() {
   return useQuery({
-    queryKey: queryKeys.products.all,
-    queryFn: () => $fetch<AllProductRes>('/api/products/all'),
+    key: ['products', 'all'],
+    query: () => $fetch<AllProductRes>('/api/products/all'),
   })
 }
 
@@ -23,8 +22,8 @@ export function useProducts(params: MaybeRef<UseProductsParams>) {
   const resolved = computed(() => toValue(params))
 
   return useQuery({
-    queryKey: computed(() => queryKeys.products.list({ ...resolved.value })),
-    queryFn: () => {
+    key: () => ['products', 'list', { ...resolved.value }],
+    query: () => {
       const p = resolved.value
       const searchParams = new URLSearchParams()
       if (p.city)
@@ -47,8 +46,8 @@ export function useProducts(params: MaybeRef<UseProductsParams>) {
 
 export function useProduct(id: MaybeRef<string>) {
   return useQuery({
-    queryKey: computed(() => queryKeys.products.detail(toValue(id))),
-    queryFn: () => $fetch<ProductDetailRes>(`/api/products/${toValue(id)}`),
-    enabled: computed(() => !!toValue(id)),
+    key: () => ['products', 'detail', toValue(id)],
+    query: () => $fetch<ProductDetailRes>(`/api/products/${toValue(id)}`),
+    enabled: () => !!toValue(id),
   })
 }

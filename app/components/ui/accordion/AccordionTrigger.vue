@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { AccordionHeader, AccordionTrigger } from 'radix-vue'
+import { AccordionHeader, AccordionTrigger } from 'reka-ui'
 import { cn } from '~/lib/utils'
 
 const props = defineProps<{ class?: string }>()

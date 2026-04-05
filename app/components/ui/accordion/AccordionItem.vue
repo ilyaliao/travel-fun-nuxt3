@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import type { AccordionItemProps } from 'radix-vue'
-import { AccordionItem } from 'radix-vue'
+import type { AccordionItemProps } from 'reka-ui'
+import { AccordionItem } from 'reka-ui'
 import { cn } from '~/lib/utils'
 
 const props = defineProps<AccordionItemProps & { class?: string }>()

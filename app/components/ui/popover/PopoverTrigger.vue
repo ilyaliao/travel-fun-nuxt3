@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { PopoverTrigger } from 'radix-vue'
+import { PopoverTrigger } from 'reka-ui'
 </script>
 
 <template>

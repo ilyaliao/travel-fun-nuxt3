@@ -1,91 +1,96 @@
 <script setup lang="ts">
-import { toast } from "vue-sonner";
-import { categoryMap, cityMap } from "~/constants";
-import { currency } from "~/utils/currency";
+import { toast } from 'vue-sonner'
+import { categoryMap, cityMap } from '~/constants'
+import { currency } from '~/utils/currency'
 
-const route = useRoute();
-const id = computed(() => route.params.id as string);
-const { data, isLoading } = useProduct(id);
-const product = computed(() => data.value?.product);
-const productReviews = computed(() => data.value?.reviews ?? []);
-const productFaqs = computed(() => data.value?.faqs ?? []);
+const route = useRoute()
+const id = computed(() => route.params.id as string)
+const { data, isLoading } = useProduct(id)
+const product = computed(() => data.value?.product)
+const productReviews = computed(() => data.value?.reviews ?? [])
+const productFaqs = computed(() => data.value?.faqs ?? [])
 const cityName = computed(() =>
-  product.value ? cityMap.get(product.value.city) || product.value.city : "",
-);
+  product.value ? cityMap.get(product.value.city) || product.value.city : '',
+)
 const categoryName = computed(() =>
-  product.value ? categoryMap.get(product.value.category) || product.value.category : "",
-);
+  product.value ? categoryMap.get(product.value.category) || product.value.category : '',
+)
 
 // Plan selection
-const selectedPlanIndex = ref(0);
-const selectedPlan = computed(() => product.value?.plans?.[selectedPlanIndex.value]);
-const displayPrice = computed(() => selectedPlan.value?.price ?? product.value?.price ?? 0);
+const selectedPlanIndex = ref(0)
+const selectedPlan = computed(() => product.value?.plans?.[selectedPlanIndex.value])
+const displayPrice = computed(() => selectedPlan.value?.price ?? product.value?.price ?? 0)
 const displayOriginPrice = computed(
   () => selectedPlan.value?.origin_price ?? product.value?.origin_price ?? 0,
-);
+)
 const discountPercent = computed(() => {
-  if (displayOriginPrice.value <= displayPrice.value) return 0;
-  return Math.round((1 - displayPrice.value / displayOriginPrice.value) * 100);
-});
+  if (displayOriginPrice.value <= displayPrice.value)
+    return 0
+  return Math.round((1 - displayPrice.value / displayOriginPrice.value) * 100)
+})
 
 // Quantity
-const qty = ref(1);
+const qty = ref(1)
 
 // Date — buy_date is a timestamp
-const today = new Date().toISOString().split("T")[0];
-const dateStr = ref(today);
+const today = new Date().toISOString().split('T')[0]
+const dateStr = ref(today)
 // Cart
-const cartStore = useCartStore();
+const cartStore = useCartStore()
 
-// Cart
-const { mutate: addToCart, isPending: isAdding } = useAddCart()
 function handleAddToCart() {
-  if (!product.value) return;
+  if (!product.value)
+    return
   const plan = selectedPlan.value
     ? { title: selectedPlan.value.title, price: selectedPlan.value.price }
-    : undefined;
-  cartStore.addItem(product.value, qty.value, plan, dateStr.value);
-  toast.success("已加入購物車");
+    : undefined
+  cartStore.addItem(product.value, qty.value, plan, dateStr.value)
+  toast.success('已加入購物車')
 }
 
 // Favorites
-const { checkFavorite, toggleFavorite: toggleFav } = useFavoriteHelpers();
-const isFavorite = computed(() => (product.value ? checkFavorite(product.value.id) : false));
+const { checkFavorite, toggleFavorite: toggleFav } = useFavoriteHelpers()
+const isFavorite = computed(() => (product.value ? checkFavorite(product.value.id) : false))
 function toggleFavorite() {
-  if (!product.value) return;
-  toggleFav(product.value.id);
+  if (!product.value)
+    return
+  toggleFav(product.value.id)
 }
 
 // Related products (same city, server-filtered, exclude self)
 const { data: relatedData } = useProducts(
   computed(() => ({
     city: product.value?.city,
-    sort: "popular",
+    sort: 'popular',
     limit: 8,
   })),
-);
+)
 const relatedProducts = computed(() => {
-  if (!relatedData.value?.products || !product.value) return [];
-  return relatedData.value.products.filter((p) => p.id !== product.value!.id).slice(0, 6);
-});
+  if (!relatedData.value?.products || !product.value)
+    return []
+  return relatedData.value.products.filter(p => p.id !== product.value!.id).slice(0, 6)
+})
 
 useSeoMeta({
-  title: () => product.value?.title || "商品詳情",
+  title: () => product.value?.title || '商品詳情',
   ogImage: () => product.value?.imageUrl,
   description: () => product.value?.description,
-});
+})
 </script>
 
 <template>
   <div class="mx-auto px-4 py-6 pb-24 max-w-[1296px] lg:pb-6">
-    <!-- Breadcrumb -->
     <UiBreadcrumb class="mb-6">
       <UiBreadcrumbItem>
-        <NuxtLink to="/" class="hover:text-cc-primary"> 首頁 </NuxtLink>
+        <NuxtLink to="/" class="hover:text-cc-primary">
+          首頁
+        </NuxtLink>
       </UiBreadcrumbItem>
       <UiBreadcrumbSeparator />
       <UiBreadcrumbItem>
-        <NuxtLink to="/products" class="hover:text-cc-primary"> 景點套票 </NuxtLink>
+        <NuxtLink to="/products" class="hover:text-cc-primary">
+          景點套票
+        </NuxtLink>
       </UiBreadcrumbItem>
       <UiBreadcrumbSeparator />
       <UiBreadcrumbItem>
@@ -93,7 +98,6 @@ useSeoMeta({
       </UiBreadcrumbItem>
     </UiBreadcrumb>
 
-    <!-- Loading -->
     <div
       v-if="isLoading"
       role="status"
@@ -105,7 +109,6 @@ useSeoMeta({
 
     <template v-else-if="product">
       <div class="flex flex-col gap-8 lg:(flex-row gap-10)">
-        <!-- Left: Image Gallery -->
         <div class="lg:w-3/5">
           <ProductImageGallery
             :main-image="product.imageUrl"
@@ -114,9 +117,7 @@ useSeoMeta({
           />
         </div>
 
-        <!-- Right: Sticky purchase panel -->
         <div class="flex flex-col gap-5 lg:(w-2/5 self-start top-24 sticky)">
-          <!-- Category + Location -->
           <div class="flex flex-wrap gap-2 items-center">
             <span
               class="text-xs text-cc-primary font-medium px-2.5 py-0.5 rounded-full bg-cc-primary/10"
@@ -135,15 +136,12 @@ useSeoMeta({
             </span>
           </div>
 
-          <!-- Title -->
           <h1 class="text-h3 leading-tight tracking-normal">
             {{ product.title }}
           </h1>
 
-          <!-- Rating -->
           <UiRating :value="product.evaluate" :count="product.evaluateNum" />
 
-          <!-- Price block -->
           <div class="flex gap-3 items-center">
             <span class="text-2xl text-cc-accent tracking-tight font-bold tabular-nums">
               {{ currency(displayPrice) }}
@@ -162,17 +160,16 @@ useSeoMeta({
             </span>
           </div>
 
-          <!-- Description -->
           <p v-if="product.description" class="text-body text-cc-grey-66 leading-relaxed">
             {{ product.description }}
           </p>
 
-          <!-- Divider -->
           <div class="bg-cc-grey-e9 h-px" />
 
-          <!-- Plan selection -->
           <div v-if="product.plans?.length">
-            <h3 class="text-sm text-cc-grey-66 font-medium mb-3">方案選擇</h3>
+            <h3 class="text-sm text-cc-grey-66 font-medium mb-3">
+              方案選擇
+            </h3>
             <div role="radiogroup" aria-label="方案選擇" class="flex flex-col gap-2.5">
               <button
                 v-for="(plan, idx) in product.plans"
@@ -188,7 +185,6 @@ useSeoMeta({
                 "
                 @click="selectedPlanIndex = idx"
               >
-                <!-- Radio indicator -->
                 <div
                   class="mt-0.5 border-2 rounded-full flex flex-shrink-0 h-5 w-5 items-center justify-center"
                   :class="selectedPlanIndex === idx ? 'border-cc-primary' : 'border-cc-grey-d4'"
@@ -211,13 +207,12 @@ useSeoMeta({
                       {{ currency(plan.price) }}
                     </span>
                   </div>
-                  <!-- Plan detail tags -->
                   <div
                     v-if="
-                      plan.includes?.length ||
-                      plan.duration ||
-                      plan.applicableTo ||
-                      plan.cancellationPolicy
+                      plan.includes?.length
+                        || plan.duration
+                        || plan.applicableTo
+                        || plan.cancellationPolicy
                     "
                     class="mt-2 flex flex-wrap gap-1.5"
                   >
@@ -252,7 +247,6 @@ useSeoMeta({
             </div>
           </div>
 
-          <!-- Date & Quantity row -->
           <div class="flex flex-wrap gap-4 items-end">
             <div class="flex-1 min-w-40">
               <label for="buy-date" class="text-sm text-cc-grey-66 font-medium mb-1.5 block">
@@ -264,24 +258,20 @@ useSeoMeta({
                 type="date"
                 :min="today"
                 class="text-sm px-3 py-2 border border-cc-grey-d4 rounded-xl bg-white h-10 w-full transition focus:(outline-none border-cc-primary ring-2 ring-cc-primary)"
-              />
+              >
             </div>
             <div>
-              <label for="qty-selector" class="text-sm text-cc-grey-66 font-medium mb-1.5 block"
-                >數量</label
-              >
+              <label for="qty-selector" class="text-sm text-cc-grey-66 font-medium mb-1.5 block">數量</label>
               <ProductQuantitySelector id="qty-selector" v-model="qty" />
             </div>
           </div>
 
-          <!-- Action buttons -->
           <div class="flex gap-3">
             <button
               class="btn text-base font-semibold py-3 rounded-xl flex-1"
-              :disabled="isAdding"
               @click="handleAddToCart"
             >
-              {{ isAdding ? "加入中..." : "加入購物車" }}
+              加入購物車
             </button>
             <button
               type="button"
@@ -302,7 +292,6 @@ useSeoMeta({
         </div>
       </div>
 
-      <!-- Section nav (desktop only) -->
       <ProductSectionNav
         :sections="[
           ...(product.content ? [{ id: 'section-intro', label: '商品介紹' }] : []),
@@ -314,7 +303,6 @@ useSeoMeta({
         ]"
       />
 
-      <!-- Content sections -->
       <div class="lg:max-w-[60%]">
         <section v-if="product.content" id="section-intro" class="mt-10">
           <h2 class="text-h4 tracking-normal mb-4 flex gap-2 items-center">
@@ -370,7 +358,6 @@ useSeoMeta({
         </div>
       </div>
 
-      <!-- Related products -->
       <section v-if="relatedProducts.length" class="mt-16">
         <HomeSwiperProducts
           title="你可能也會喜歡"
@@ -382,7 +369,6 @@ useSeoMeta({
 
     <UiEmpty v-else description="找不到此商品" />
 
-    <!-- Mobile fixed CTA -->
     <div
       v-if="product"
       class="px-4 py-3 border-t border-cc-grey-e9 bg-white flex gap-3 shadow-lg items-center inset-x-0 bottom-0 fixed z-50 lg:hidden"
@@ -398,12 +384,8 @@ useSeoMeta({
           {{ currency(displayOriginPrice, "$") }}
         </span>
       </div>
-      <button
-        class="btn text-sm font-semibold px-6 py-2.5 rounded-xl"
-        :disabled="isAdding"
-        @click="handleAddToCart"
-      >
-        {{ isAdding ? "加入中..." : "加入購物車" }}
+      <button class="btn text-sm font-semibold px-6 py-2.5 rounded-xl" @click="handleAddToCart">
+        加入購物車
       </button>
     </div>
   </div>
@@ -433,7 +415,7 @@ useSeoMeta({
   max-width: 100%;
   border-radius: 0.5rem;
 }
-[id^="section-"] {
+[id^='section-'] {
   scroll-margin-top: 4rem;
 }
 </style>

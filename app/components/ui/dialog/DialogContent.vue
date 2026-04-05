@@ -5,7 +5,7 @@ import {
   DialogContent,
   DialogOverlay,
   DialogPortal,
-} from 'radix-vue'
+} from 'reka-ui'
 import { cn } from '~/lib/utils'
 
 interface Props {

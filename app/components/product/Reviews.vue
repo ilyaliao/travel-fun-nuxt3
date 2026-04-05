@@ -33,9 +33,7 @@ function formatDate(ts: number) {
       旅客評價
     </h2>
 
-    <!-- Summary -->
     <div class="mb-8 flex flex-col gap-8 sm:flex-row">
-      <!-- Left: score -->
       <div class="flex flex-col gap-1 min-w-32 items-center justify-center">
         <span class="text-5xl text-cc-accent leading-none font-bold tabular-nums">
           {{ averageRating.toFixed(1) }}
@@ -44,7 +42,6 @@ function formatDate(ts: number) {
         <span class="text-sm text-cc-grey-66 tabular-nums">{{ totalCount }} 則評論</span>
       </div>
 
-      <!-- Right: distribution bars -->
       <div class="flex flex-1 flex-col gap-2">
         <div v-for="{ star, pct } in distribution" :key="star" class="flex gap-2 items-center">
           <span class="text-sm text-cc-grey-66 shrink-0 w-4 tabular-nums">{{ star }}</span>
@@ -60,7 +57,6 @@ function formatDate(ts: number) {
       </div>
     </div>
 
-    <!-- Review list -->
     <div class="divide-cc-grey-e9 divide-y">
       <div
         v-for="review in visibleReviews"
@@ -68,7 +64,6 @@ function formatDate(ts: number) {
         class="py-4 border-b border-cc-grey-e9 last:border-b-0"
       >
         <div class="flex gap-3 items-start">
-          <!-- Avatar -->
           <div
             class="text-sm text-cc-primary font-semibold rounded-full bg-cc-primary/10 flex shrink-0 h-8 w-8 items-center justify-center"
           >
@@ -91,7 +86,6 @@ function formatDate(ts: number) {
       </div>
     </div>
 
-    <!-- Expand button -->
     <div v-if="reviews.length > DEFAULT_VISIBLE && !showAll" class="mt-4">
       <button
         class="text-sm text-cc-primary font-medium focus-visible:(outline-none rounded ring-2 ring-cc-primary) hover:underline"

@@ -2,7 +2,6 @@
 import type { Product } from '~/types'
 import { A11y, Navigation } from 'swiper/modules'
 import { Swiper, SwiperSlide } from 'swiper/vue'
-import 'swiper/css'
 
 defineProps<{
   title: string
@@ -50,7 +49,7 @@ const { isBeginning, isEnd, onSwiper, onSlideChange } = useSwiperInit()
         @slide-change="onSlideChange"
       >
         <SwiperSlide v-for="(product, index) in products" :key="product.id || index">
-          <HomeProductCard :product="product" :ranking="index + 1" />
+          <HomeProductCard :product :ranking="index + 1" />
         </SwiperSlide>
       </Swiper>
       <SwiperNav :classkey="swiperKey" :is-beginning="isBeginning" :is-end="isEnd" />

@@ -2,7 +2,6 @@
 import { A11y, Navigation } from 'swiper/modules'
 import { Swiper, SwiperSlide } from 'swiper/vue'
 import { mockNews } from '~/constants'
-import 'swiper/css'
 
 const { isBeginning, isEnd, onSwiper, onSlideChange } = useSwiperInit()
 </script>

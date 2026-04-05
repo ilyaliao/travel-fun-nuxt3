@@ -23,9 +23,7 @@ const categoryName = computed(
     :to="`/products/${product.id}`"
     class="group rounded-2xl bg-white flex flex-col shadow-sm transition-shadow duration-300 overflow-hidden hover:shadow-md"
   >
-    <!-- Image -->
     <div class="bg-cc-grey-e9 relative overflow-hidden">
-      <!-- Ranking badge -->
       <div
         v-if="!notRanking"
         class="text-sm text-white font-bold text-center rounded-br-lg bg-cc-accent flex h-[30px] w-[30px] items-center left-0 top-0 justify-center absolute z-10"
@@ -33,13 +31,12 @@ const categoryName = computed(
         {{ ranking }}
       </div>
 
-      <!-- Favorite button -->
       <button
         v-if="checkFavorite(product.id)"
         type="button"
         aria-label="取消收藏"
         class="p-1.5 rounded-full bg-white cursor-pointer shadow-sm transition-transform duration-200 right-2.5 top-2.5 absolute z-10 focus-visible:(outline-none ring-2 ring-cc-primary) hover:scale-110"
-        @click.prevent="toggleFavorite(product.id, product.title)"
+        @click.prevent="toggleFavorite(product.id)"
       >
         <div class="i-material-symbols-favorite text-cc-accent h-5 w-5" />
       </button>
@@ -48,12 +45,11 @@ const categoryName = computed(
         type="button"
         aria-label="加入收藏"
         class="p-1.5 rounded-full bg-white cursor-pointer shadow-sm transition-transform duration-200 right-2.5 top-2.5 absolute z-10 focus-visible:(outline-none ring-2 ring-cc-primary) hover:scale-110"
-        @click.prevent="toggleFavorite(product.id, product.title)"
+        @click.prevent="toggleFavorite(product.id)"
       >
         <div class="i-material-symbols-favorite-outline text-cc-grey-9f h-5 w-5" />
       </button>
 
-      <!-- Category badge -->
       <div
         class="text-xs text-white px-2.5 py-0.5 rounded-full bg-white/20 bottom-2.5 left-2.5 absolute z-10 backdrop-blur-sm"
       >
@@ -68,7 +64,6 @@ const categoryName = computed(
       >
     </div>
 
-    <!-- Card body -->
     <div class="p-3 flex flex-1 flex-col gap-1.5">
       <h4 class="text-sm text-cc-black leading-snug font-semibold flex-1 line-clamp-2">
         {{ product.title }}

@@ -75,7 +75,7 @@ function updateQuery(patch: Record<string, string | undefined>) {
 }
 
 // Main products (paginated)
-const { data, isLoading, isFetching } = useProducts(
+const { data, isLoading, asyncStatus } = useProducts(
   computed(() => ({
     city: name.value,
     category: selectedCategory.value || undefined,
@@ -117,7 +117,6 @@ useSeoMeta({
 
 <template>
   <div class="mx-auto px-4 py-6 max-w-[1296px]">
-    <!-- Breadcrumb -->
     <UiBreadcrumb class="mb-4">
       <UiBreadcrumbItem>
         <NuxtLink to="/" class="hover:text-cc-primary">
@@ -136,7 +135,6 @@ useSeoMeta({
       </UiBreadcrumbItem>
     </UiBreadcrumb>
 
-    <!-- Hero Banner -->
     <div class="mb-6 rounded-2xl aspect-[16/7] relative overflow-hidden md:aspect-[21/7]">
       <img
         :src="cityImage"
@@ -165,7 +163,6 @@ useSeoMeta({
       </div>
     </div>
 
-    <!-- Filters -->
     <ProductFilters
       :selected-city="name"
       :selected-category="selectedCategory"
@@ -188,7 +185,6 @@ useSeoMeta({
       "
     />
 
-    <!-- Top Rated Section -->
     <section v-if="topProducts.length" class="mb-8">
       <HomeSwiperProducts
         title="熱門推薦"
@@ -197,27 +193,25 @@ useSeoMeta({
       />
     </section>
 
-    <!-- All Products Section -->
     <section>
       <h2 class="text-h4 tracking-normal mb-4">
         所有商品
       </h2>
 
       <ProductGrid
-        :products="products"
+        :products
         :is-loading="isLoading"
-        :is-fetching="isFetching"
+        :is-fetching="asyncStatus === 'loading'"
         :empty-text="`${cityName} 目前沒有商品`"
       />
 
       <ProductPagination
         v-if="pagination"
-        :pagination="pagination"
+        :pagination
         @update:page="(v: number) => updateQuery({ page: v > 1 ? String(v) : undefined })"
       />
     </section>
 
-    <!-- Sparse layout CTA -->
     <div
       v-if="!topProducts.length && products.length < 3"
       class="mb-8 mt-8 p-6 text-center rounded-xl bg-cc-grey-f7"
@@ -230,7 +224,6 @@ useSeoMeta({
       </NuxtLink>
     </div>
 
-    <!-- Nearby Cities -->
     <section v-if="nearbyCities.length" class="mt-10 pt-8">
       <h2 class="text-h4 tracking-normal mb-1">
         探索附近城市

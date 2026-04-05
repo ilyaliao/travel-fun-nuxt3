@@ -38,17 +38,15 @@ function nextImage() {
 
 <template>
   <div class="flex flex-col gap-3">
-    <!-- Main image -->
     <div class="rounded-2xl cursor-pointer relative overflow-hidden" @click="openLightbox">
       <NuxtImg
         :src="currentImage"
-        :alt="alt"
+        :alt
         class="img-cover w-full aspect-[4/3] transition-opacity duration-300"
         fetchpriority="high"
       />
     </div>
 
-    <!-- Thumbnails -->
     <div v-if="allImages.length > 1" class="gap-2 grid grid-cols-5">
       <button
         v-for="(img, idx) in allImages"
@@ -74,7 +72,6 @@ function nextImage() {
     </div>
   </div>
 
-  <!-- Lightbox -->
   <Teleport to="body">
     <Transition name="fade">
       <div
@@ -87,7 +84,6 @@ function nextImage() {
         @keydown.left="prevImage"
         @keydown.right="nextImage"
       >
-        <!-- Close button -->
         <button
           type="button"
           class="text-white/70 p-2 right-4 top-4 absolute z-10 hover:text-white"
@@ -97,7 +93,6 @@ function nextImage() {
           <div class="i-material-symbols-close h-8 w-8" />
         </button>
 
-        <!-- Prev -->
         <button
           v-if="allImages.length > 1"
           type="button"
@@ -108,14 +103,12 @@ function nextImage() {
           <div class="i-material-symbols-chevron-left h-10 w-10" />
         </button>
 
-        <!-- Image -->
         <img
           :src="allImages[lightboxIndex]"
           :alt="`${alt} ${lightboxIndex + 1}`"
           class="max-h-[85vh] max-w-[90vw] select-none object-contain"
         >
 
-        <!-- Next -->
         <button
           v-if="allImages.length > 1"
           type="button"
@@ -126,7 +119,6 @@ function nextImage() {
           <div class="i-material-symbols-chevron-right h-10 w-10" />
         </button>
 
-        <!-- Counter -->
         <div class="text-sm text-white/70 bottom-6 absolute tabular-nums">
           {{ lightboxIndex + 1 }} / {{ allImages.length }}
         </div>
@@ -134,14 +126,3 @@ function nextImage() {
     </Transition>
   </Teleport>
 </template>
-
-<style scoped>
-.fade-enter-active,
-.fade-leave-active {
-  transition: opacity 0.2s ease;
-}
-.fade-enter-from,
-.fade-leave-to {
-  opacity: 0;
-}
-</style>
